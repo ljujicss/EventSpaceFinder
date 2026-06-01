@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c62e73435dc64253b0c3b169d544a7c9" Name="Diagram1">
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Grad" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.KalendarZauzetosti" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Komentar" Width="1.5" PointX="8.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Korisnik" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Ocjena" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.OmiljeniProstor" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Paket" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Prostor" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Rezervacija" Width="1.5" PointX="7.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.SlikaProstora" Width="1.5" PointX="5.25" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.StatusRezervacije" Width="1.5" PointX="5.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.TipDogadjaja" Width="1.5" PointX="5.25" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventSpaceFinderModel.Usluga" Width="1.5" PointX="10.5" PointY="17.75" IsExpanded="true" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Prostor__id_grad__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__KalendarZ__id_pr__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__KalendarZ__id_re__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Komentar__id_kor__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Komentar__id_pro__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Ocjena__id_koris__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__OmiljeniP__id_ko__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Rezervaci__id_ko__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Ocjena__id_prost__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__OmiljeniP__id_pr__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Paket__id_prosto__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Rezervaci__id_pa__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Rezervaci__id_pr__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__SlikaPros__id_pr__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.FK__Rezervaci__id_st__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.PaketUsluga" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.ProstorTipDogadjaja" ManuallyRouted="false" />
+        <AssociationConnector Association="EventSpaceFinderModel.ProstorUsluga" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

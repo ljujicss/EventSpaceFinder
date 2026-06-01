@@ -1,0 +1,1179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EventSpaceFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Grad">
+          <Key>
+            <PropertyRef Name="id_grada" />
+          </Key>
+          <Property Name="id_grada" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv_grada" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KalendarZauzetosti">
+          <Key>
+            <PropertyRef Name="id_kalendara" />
+          </Key>
+          <Property Name="id_kalendara" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="id_rezervacije" Type="int" />
+          <Property Name="datum" Type="date" Nullable="false" />
+          <Property Name="status_datuma" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="napomena" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Komentar">
+          <Key>
+            <PropertyRef Name="id_komentara" />
+          </Key>
+          <Property Name="id_komentara" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_korisnika" Type="int" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="tekst_komentara" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="datum_komentara" Type="datetime" Nullable="false" />
+          <Property Name="odobren" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="id_korisnika" />
+          </Key>
+          <Property Name="id_korisnika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="lozinka" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="telefon" Type="nvarchar" MaxLength="30" />
+          <Property Name="uloga" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="datum_registracije" Type="datetime" Nullable="false" />
+          <Property Name="aktivan" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ocjena">
+          <Key>
+            <PropertyRef Name="id_ocjene" />
+          </Key>
+          <Property Name="id_ocjene" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_korisnika" Type="int" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="ocjena" Type="int" Nullable="false" />
+          <Property Name="datum_ocjene" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OmiljeniProstor">
+          <Key>
+            <PropertyRef Name="id_korisnika" />
+            <PropertyRef Name="id_prostora" />
+          </Key>
+          <Property Name="id_korisnika" Type="int" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="datum_dodavanja" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paket">
+          <Key>
+            <PropertyRef Name="id_paketa" />
+          </Key>
+          <Property Name="id_paketa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="naziv_paketa" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="1000" />
+          <Property Name="cijena" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="broj_sati" Type="int" Nullable="false" />
+          <Property Name="aktivan" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaketUsluga">
+          <Key>
+            <PropertyRef Name="id_paketa" />
+            <PropertyRef Name="id_usluge" />
+          </Key>
+          <Property Name="id_paketa" Type="int" Nullable="false" />
+          <Property Name="id_usluge" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Prostor">
+          <Key>
+            <PropertyRef Name="id_prostora" />
+          </Key>
+          <Property Name="id_prostora" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_grada" Type="int" Nullable="false" />
+          <Property Name="naziv" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="1000" />
+          <Property Name="adresa" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="kapacitet" Type="int" Nullable="false" />
+          <Property Name="osnovna_cijena" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="tip_prostora" Type="nvarchar" MaxLength="50" />
+          <Property Name="aktivan" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProstorTipDogadjaja">
+          <Key>
+            <PropertyRef Name="id_prostora" />
+            <PropertyRef Name="id_tipa_dogadjaja" />
+          </Key>
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="id_tipa_dogadjaja" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProstorUsluga">
+          <Key>
+            <PropertyRef Name="id_prostora" />
+            <PropertyRef Name="id_usluge" />
+          </Key>
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="id_usluge" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rezervacija">
+          <Key>
+            <PropertyRef Name="id_rezervacije" />
+          </Key>
+          <Property Name="id_rezervacije" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_korisnika" Type="int" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="id_paketa" Type="int" Nullable="false" />
+          <Property Name="id_statusa" Type="int" Nullable="false" />
+          <Property Name="datum_rezervacije" Type="datetime" Nullable="false" />
+          <Property Name="datum_dogadjaja" Type="date" Nullable="false" />
+          <Property Name="broj_gostiju" Type="int" Nullable="false" />
+          <Property Name="ukupna_cijena" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="napomena" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="SlikaProstora">
+          <Key>
+            <PropertyRef Name="id_slike" />
+          </Key>
+          <Property Name="id_slike" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_prostora" Type="int" Nullable="false" />
+          <Property Name="putanja_slike" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="300" />
+          <Property Name="glavna_slika" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusRezervacije">
+          <Key>
+            <PropertyRef Name="id_statusa" />
+          </Key>
+          <Property Name="id_statusa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv_statusa" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipDogadjaja">
+          <Key>
+            <PropertyRef Name="id_tipa_dogadjaja" />
+          </Key>
+          <Property Name="id_tipa_dogadjaja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv_tipa" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Usluga">
+          <Key>
+            <PropertyRef Name="id_usluge" />
+          </Key>
+          <Property Name="id_usluge" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv_usluge" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="opis" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK__KalendarZ__id_pr__68487DD7">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="KalendarZauzetosti" Type="Self.KalendarZauzetosti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="KalendarZauzetosti">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KalendarZ__id_re__693CA210">
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="0..1" />
+          <End Role="KalendarZauzetosti" Type="Self.KalendarZauzetosti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezervacija">
+              <PropertyRef Name="id_rezervacije" />
+            </Principal>
+            <Dependent Role="KalendarZauzetosti">
+              <PropertyRef Name="id_rezervacije" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentar__id_kor__75A278F5">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Komentar" Type="Self.Komentar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Komentar">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentar__id_pro__76969D2E">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Komentar" Type="Self.Komentar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Komentar">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ocjena__id_koris__6EF57B66">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Ocjena" Type="Self.Ocjena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Ocjena">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ocjena__id_prost__6FE99F9F">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Ocjena" Type="Self.Ocjena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Ocjena">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OmiljeniP__id_ko__7E37BEF6">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="OmiljeniProstor" Type="Self.OmiljeniProstor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="OmiljeniProstor">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OmiljeniP__id_pr__7F2BE32F">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="OmiljeniProstor" Type="Self.OmiljeniProstor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="OmiljeniProstor">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paket__id_prosto__5441852A">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Paket" Type="Self.Paket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Paket">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaketUslu__id_pa__59063A47">
+          <End Role="Paket" Type="Self.Paket" Multiplicity="1" />
+          <End Role="PaketUsluga" Type="Self.PaketUsluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paket">
+              <PropertyRef Name="id_paketa" />
+            </Principal>
+            <Dependent Role="PaketUsluga">
+              <PropertyRef Name="id_paketa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaketUslu__id_us__59FA5E80">
+          <End Role="Usluga" Type="Self.Usluga" Multiplicity="1" />
+          <End Role="PaketUsluga" Type="Self.PaketUsluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usluga">
+              <PropertyRef Name="id_usluge" />
+            </Principal>
+            <Dependent Role="PaketUsluga">
+              <PropertyRef Name="id_usluge" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Prostor__id_grad__412EB0B6">
+          <End Role="Grad" Type="Self.Grad" Multiplicity="1" />
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grad">
+              <PropertyRef Name="id_grada" />
+            </Principal>
+            <Dependent Role="Prostor">
+              <PropertyRef Name="id_grada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProstorTi__id_pr__48CFD27E">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="ProstorTipDogadjaja" Type="Self.ProstorTipDogadjaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="ProstorTipDogadjaja">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProstorTi__id_ti__49C3F6B7">
+          <End Role="TipDogadjaja" Type="Self.TipDogadjaja" Multiplicity="1" />
+          <End Role="ProstorTipDogadjaja" Type="Self.ProstorTipDogadjaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipDogadjaja">
+              <PropertyRef Name="id_tipa_dogadjaja" />
+            </Principal>
+            <Dependent Role="ProstorTipDogadjaja">
+              <PropertyRef Name="id_tipa_dogadjaja" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProstorUs__id_pr__4F7CD00D">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="ProstorUsluga" Type="Self.ProstorUsluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="ProstorUsluga">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProstorUs__id_us__5070F446">
+          <End Role="Usluga" Type="Self.Usluga" Multiplicity="1" />
+          <End Role="ProstorUsluga" Type="Self.ProstorUsluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usluga">
+              <PropertyRef Name="id_usluge" />
+            </Principal>
+            <Dependent Role="ProstorUsluga">
+              <PropertyRef Name="id_usluge" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_ko__60A75C0F">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_pa__628FA481">
+          <End Role="Paket" Type="Self.Paket" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paket">
+              <PropertyRef Name="id_paketa" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_paketa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_pr__619B8048">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_st__6383C8BA">
+          <End Role="StatusRezervacije" Type="Self.StatusRezervacije" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusRezervacije">
+              <PropertyRef Name="id_statusa" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_statusa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SlikaPros__id_pr__7A672E12">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="SlikaProstora" Type="Self.SlikaProstora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="SlikaProstora">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventSpaceFinderModelStoreContainer">
+          <EntitySet Name="Grad" EntityType="Self.Grad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KalendarZauzetosti" EntityType="Self.KalendarZauzetosti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Komentar" EntityType="Self.Komentar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ocjena" EntityType="Self.Ocjena" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OmiljeniProstor" EntityType="Self.OmiljeniProstor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paket" EntityType="Self.Paket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaketUsluga" EntityType="Self.PaketUsluga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prostor" EntityType="Self.Prostor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProstorTipDogadjaja" EntityType="Self.ProstorTipDogadjaja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProstorUsluga" EntityType="Self.ProstorUsluga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezervacija" EntityType="Self.Rezervacija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SlikaProstora" EntityType="Self.SlikaProstora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusRezervacije" EntityType="Self.StatusRezervacije" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipDogadjaja" EntityType="Self.TipDogadjaja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usluga" EntityType="Self.Usluga" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__KalendarZ__id_pr__68487DD7" Association="Self.FK__KalendarZ__id_pr__68487DD7">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="KalendarZauzetosti" EntitySet="KalendarZauzetosti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KalendarZ__id_re__693CA210" Association="Self.FK__KalendarZ__id_re__693CA210">
+            <End Role="Rezervacija" EntitySet="Rezervacija" />
+            <End Role="KalendarZauzetosti" EntitySet="KalendarZauzetosti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentar__id_kor__75A278F5" Association="Self.FK__Komentar__id_kor__75A278F5">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Komentar" EntitySet="Komentar" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentar__id_pro__76969D2E" Association="Self.FK__Komentar__id_pro__76969D2E">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="Komentar" EntitySet="Komentar" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ocjena__id_koris__6EF57B66" Association="Self.FK__Ocjena__id_koris__6EF57B66">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Ocjena" EntitySet="Ocjena" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ocjena__id_prost__6FE99F9F" Association="Self.FK__Ocjena__id_prost__6FE99F9F">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="Ocjena" EntitySet="Ocjena" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OmiljeniP__id_ko__7E37BEF6" Association="Self.FK__OmiljeniP__id_ko__7E37BEF6">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="OmiljeniProstor" EntitySet="OmiljeniProstor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OmiljeniP__id_pr__7F2BE32F" Association="Self.FK__OmiljeniP__id_pr__7F2BE32F">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="OmiljeniProstor" EntitySet="OmiljeniProstor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paket__id_prosto__5441852A" Association="Self.FK__Paket__id_prosto__5441852A">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="Paket" EntitySet="Paket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaketUslu__id_pa__59063A47" Association="Self.FK__PaketUslu__id_pa__59063A47">
+            <End Role="Paket" EntitySet="Paket" />
+            <End Role="PaketUsluga" EntitySet="PaketUsluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaketUslu__id_us__59FA5E80" Association="Self.FK__PaketUslu__id_us__59FA5E80">
+            <End Role="Usluga" EntitySet="Usluga" />
+            <End Role="PaketUsluga" EntitySet="PaketUsluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Prostor__id_grad__412EB0B6" Association="Self.FK__Prostor__id_grad__412EB0B6">
+            <End Role="Grad" EntitySet="Grad" />
+            <End Role="Prostor" EntitySet="Prostor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProstorTi__id_pr__48CFD27E" Association="Self.FK__ProstorTi__id_pr__48CFD27E">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="ProstorTipDogadjaja" EntitySet="ProstorTipDogadjaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProstorTi__id_ti__49C3F6B7" Association="Self.FK__ProstorTi__id_ti__49C3F6B7">
+            <End Role="TipDogadjaja" EntitySet="TipDogadjaja" />
+            <End Role="ProstorTipDogadjaja" EntitySet="ProstorTipDogadjaja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProstorUs__id_pr__4F7CD00D" Association="Self.FK__ProstorUs__id_pr__4F7CD00D">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="ProstorUsluga" EntitySet="ProstorUsluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProstorUs__id_us__5070F446" Association="Self.FK__ProstorUs__id_us__5070F446">
+            <End Role="Usluga" EntitySet="Usluga" />
+            <End Role="ProstorUsluga" EntitySet="ProstorUsluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_ko__60A75C0F" Association="Self.FK__Rezervaci__id_ko__60A75C0F">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Rezervacija" EntitySet="Rezervacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_pa__628FA481" Association="Self.FK__Rezervaci__id_pa__628FA481">
+            <End Role="Paket" EntitySet="Paket" />
+            <End Role="Rezervacija" EntitySet="Rezervacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_pr__619B8048" Association="Self.FK__Rezervaci__id_pr__619B8048">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="Rezervacija" EntitySet="Rezervacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_st__6383C8BA" Association="Self.FK__Rezervaci__id_st__6383C8BA">
+            <End Role="StatusRezervacije" EntitySet="StatusRezervacije" />
+            <End Role="Rezervacija" EntitySet="Rezervacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SlikaPros__id_pr__7A672E12" Association="Self.FK__SlikaPros__id_pr__7A672E12">
+            <End Role="Prostor" EntitySet="Prostor" />
+            <End Role="SlikaProstora" EntitySet="SlikaProstora" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EventSpaceFinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Grad">
+          <Key>
+            <PropertyRef Name="id_grada" />
+          </Key>
+          <Property Name="id_grada" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv_grada" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Prostors" Relationship="Self.FK__Prostor__id_grad__412EB0B6" FromRole="Grad" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="KalendarZauzetosti">
+          <Key>
+            <PropertyRef Name="id_kalendara" />
+          </Key>
+          <Property Name="id_kalendara" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="id_rezervacije" Type="Int32" />
+          <Property Name="datum" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status_datuma" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="napomena" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__KalendarZ__id_pr__68487DD7" FromRole="KalendarZauzetosti" ToRole="Prostor" />
+          <NavigationProperty Name="Rezervacija" Relationship="Self.FK__KalendarZ__id_re__693CA210" FromRole="KalendarZauzetosti" ToRole="Rezervacija" />
+        </EntityType>
+        <EntityType Name="Komentar">
+          <Key>
+            <PropertyRef Name="id_komentara" />
+          </Key>
+          <Property Name="id_komentara" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_korisnika" Type="Int32" Nullable="false" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="tekst_komentara" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="datum_komentara" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="odobren" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__Komentar__id_kor__75A278F5" FromRole="Komentar" ToRole="Korisnik" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__Komentar__id_pro__76969D2E" FromRole="Komentar" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="id_korisnika" />
+          </Key>
+          <Property Name="id_korisnika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lozinka" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="telefon" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="uloga" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="datum_registracije" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="aktivan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Komentars" Relationship="Self.FK__Komentar__id_kor__75A278F5" FromRole="Korisnik" ToRole="Komentar" />
+          <NavigationProperty Name="Ocjenas" Relationship="Self.FK__Ocjena__id_koris__6EF57B66" FromRole="Korisnik" ToRole="Ocjena" />
+          <NavigationProperty Name="OmiljeniProstors" Relationship="Self.FK__OmiljeniP__id_ko__7E37BEF6" FromRole="Korisnik" ToRole="OmiljeniProstor" />
+          <NavigationProperty Name="Rezervacijas" Relationship="Self.FK__Rezervaci__id_ko__60A75C0F" FromRole="Korisnik" ToRole="Rezervacija" />
+        </EntityType>
+        <EntityType Name="Ocjena">
+          <Key>
+            <PropertyRef Name="id_ocjene" />
+          </Key>
+          <Property Name="id_ocjene" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_korisnika" Type="Int32" Nullable="false" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="ocjena1" Type="Int32" Nullable="false" />
+          <Property Name="datum_ocjene" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__Ocjena__id_koris__6EF57B66" FromRole="Ocjena" ToRole="Korisnik" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__Ocjena__id_prost__6FE99F9F" FromRole="Ocjena" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="OmiljeniProstor">
+          <Key>
+            <PropertyRef Name="id_korisnika" />
+            <PropertyRef Name="id_prostora" />
+          </Key>
+          <Property Name="id_korisnika" Type="Int32" Nullable="false" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="datum_dodavanja" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__OmiljeniP__id_ko__7E37BEF6" FromRole="OmiljeniProstor" ToRole="Korisnik" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__OmiljeniP__id_pr__7F2BE32F" FromRole="OmiljeniProstor" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="Paket">
+          <Key>
+            <PropertyRef Name="id_paketa" />
+          </Key>
+          <Property Name="id_paketa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="naziv_paketa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="cijena" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="broj_sati" Type="Int32" Nullable="false" />
+          <Property Name="aktivan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__Paket__id_prosto__5441852A" FromRole="Paket" ToRole="Prostor" />
+          <NavigationProperty Name="Rezervacijas" Relationship="Self.FK__Rezervaci__id_pa__628FA481" FromRole="Paket" ToRole="Rezervacija" />
+          <NavigationProperty Name="Uslugas" Relationship="Self.PaketUsluga" FromRole="Paket" ToRole="Usluga" />
+        </EntityType>
+        <EntityType Name="Prostor">
+          <Key>
+            <PropertyRef Name="id_prostora" />
+          </Key>
+          <Property Name="id_prostora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_grada" Type="Int32" Nullable="false" />
+          <Property Name="naziv" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="adresa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kapacitet" Type="Int32" Nullable="false" />
+          <Property Name="osnovna_cijena" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="tip_prostora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="aktivan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Grad" Relationship="Self.FK__Prostor__id_grad__412EB0B6" FromRole="Prostor" ToRole="Grad" />
+          <NavigationProperty Name="KalendarZauzetostis" Relationship="Self.FK__KalendarZ__id_pr__68487DD7" FromRole="Prostor" ToRole="KalendarZauzetosti" />
+          <NavigationProperty Name="Komentars" Relationship="Self.FK__Komentar__id_pro__76969D2E" FromRole="Prostor" ToRole="Komentar" />
+          <NavigationProperty Name="Ocjenas" Relationship="Self.FK__Ocjena__id_prost__6FE99F9F" FromRole="Prostor" ToRole="Ocjena" />
+          <NavigationProperty Name="OmiljeniProstors" Relationship="Self.FK__OmiljeniP__id_pr__7F2BE32F" FromRole="Prostor" ToRole="OmiljeniProstor" />
+          <NavigationProperty Name="Pakets" Relationship="Self.FK__Paket__id_prosto__5441852A" FromRole="Prostor" ToRole="Paket" />
+          <NavigationProperty Name="Rezervacijas" Relationship="Self.FK__Rezervaci__id_pr__619B8048" FromRole="Prostor" ToRole="Rezervacija" />
+          <NavigationProperty Name="SlikaProstoras" Relationship="Self.FK__SlikaPros__id_pr__7A672E12" FromRole="Prostor" ToRole="SlikaProstora" />
+          <NavigationProperty Name="TipDogadjajas" Relationship="Self.ProstorTipDogadjaja" FromRole="Prostor" ToRole="TipDogadjaja" />
+          <NavigationProperty Name="Uslugas" Relationship="Self.ProstorUsluga" FromRole="Prostor" ToRole="Usluga" />
+        </EntityType>
+        <EntityType Name="Rezervacija">
+          <Key>
+            <PropertyRef Name="id_rezervacije" />
+          </Key>
+          <Property Name="id_rezervacije" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_korisnika" Type="Int32" Nullable="false" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="id_paketa" Type="Int32" Nullable="false" />
+          <Property Name="id_statusa" Type="Int32" Nullable="false" />
+          <Property Name="datum_rezervacije" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="datum_dogadjaja" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="broj_gostiju" Type="Int32" Nullable="false" />
+          <Property Name="ukupna_cijena" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="napomena" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="KalendarZauzetostis" Relationship="Self.FK__KalendarZ__id_re__693CA210" FromRole="Rezervacija" ToRole="KalendarZauzetosti" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__Rezervaci__id_ko__60A75C0F" FromRole="Rezervacija" ToRole="Korisnik" />
+          <NavigationProperty Name="Paket" Relationship="Self.FK__Rezervaci__id_pa__628FA481" FromRole="Rezervacija" ToRole="Paket" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__Rezervaci__id_pr__619B8048" FromRole="Rezervacija" ToRole="Prostor" />
+          <NavigationProperty Name="StatusRezervacije" Relationship="Self.FK__Rezervaci__id_st__6383C8BA" FromRole="Rezervacija" ToRole="StatusRezervacije" />
+        </EntityType>
+        <EntityType Name="SlikaProstora">
+          <Key>
+            <PropertyRef Name="id_slike" />
+          </Key>
+          <Property Name="id_slike" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_prostora" Type="Int32" Nullable="false" />
+          <Property Name="putanja_slike" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="glavna_slika" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Prostor" Relationship="Self.FK__SlikaPros__id_pr__7A672E12" FromRole="SlikaProstora" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="StatusRezervacije">
+          <Key>
+            <PropertyRef Name="id_statusa" />
+          </Key>
+          <Property Name="id_statusa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv_statusa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rezervacijas" Relationship="Self.FK__Rezervaci__id_st__6383C8BA" FromRole="StatusRezervacije" ToRole="Rezervacija" />
+        </EntityType>
+        <EntityType Name="TipDogadjaja">
+          <Key>
+            <PropertyRef Name="id_tipa_dogadjaja" />
+          </Key>
+          <Property Name="id_tipa_dogadjaja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv_tipa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Prostors" Relationship="Self.ProstorTipDogadjaja" FromRole="TipDogadjaja" ToRole="Prostor" />
+        </EntityType>
+        <EntityType Name="Usluga">
+          <Key>
+            <PropertyRef Name="id_usluge" />
+          </Key>
+          <Property Name="id_usluge" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv_usluge" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pakets" Relationship="Self.PaketUsluga" FromRole="Usluga" ToRole="Paket" />
+          <NavigationProperty Name="Prostors" Relationship="Self.ProstorUsluga" FromRole="Usluga" ToRole="Prostor" />
+        </EntityType>
+        <Association Name="FK__Prostor__id_grad__412EB0B6">
+          <End Role="Grad" Type="Self.Grad" Multiplicity="1" />
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grad">
+              <PropertyRef Name="id_grada" />
+            </Principal>
+            <Dependent Role="Prostor">
+              <PropertyRef Name="id_grada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KalendarZ__id_pr__68487DD7">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="KalendarZauzetosti" Type="Self.KalendarZauzetosti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="KalendarZauzetosti">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KalendarZ__id_re__693CA210">
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="0..1" />
+          <End Role="KalendarZauzetosti" Type="Self.KalendarZauzetosti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezervacija">
+              <PropertyRef Name="id_rezervacije" />
+            </Principal>
+            <Dependent Role="KalendarZauzetosti">
+              <PropertyRef Name="id_rezervacije" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentar__id_kor__75A278F5">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Komentar" Type="Self.Komentar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Komentar">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Komentar__id_pro__76969D2E">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Komentar" Type="Self.Komentar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Komentar">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ocjena__id_koris__6EF57B66">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Ocjena" Type="Self.Ocjena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Ocjena">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OmiljeniP__id_ko__7E37BEF6">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="OmiljeniProstor" Type="Self.OmiljeniProstor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="OmiljeniProstor">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_ko__60A75C0F">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnika" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_korisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ocjena__id_prost__6FE99F9F">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Ocjena" Type="Self.Ocjena" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Ocjena">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OmiljeniP__id_pr__7F2BE32F">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="OmiljeniProstor" Type="Self.OmiljeniProstor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="OmiljeniProstor">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paket__id_prosto__5441852A">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Paket" Type="Self.Paket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Paket">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_pa__628FA481">
+          <End Role="Paket" Type="Self.Paket" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paket">
+              <PropertyRef Name="id_paketa" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_paketa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_pr__619B8048">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SlikaPros__id_pr__7A672E12">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="1" />
+          <End Role="SlikaProstora" Type="Self.SlikaProstora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prostor">
+              <PropertyRef Name="id_prostora" />
+            </Principal>
+            <Dependent Role="SlikaProstora">
+              <PropertyRef Name="id_prostora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rezervaci__id_st__6383C8BA">
+          <End Role="StatusRezervacije" Type="Self.StatusRezervacije" Multiplicity="1" />
+          <End Role="Rezervacija" Type="Self.Rezervacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusRezervacije">
+              <PropertyRef Name="id_statusa" />
+            </Principal>
+            <Dependent Role="Rezervacija">
+              <PropertyRef Name="id_statusa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PaketUsluga">
+          <End Role="Paket" Type="Self.Paket" Multiplicity="*" />
+          <End Role="Usluga" Type="Self.Usluga" Multiplicity="*" />
+        </Association>
+        <Association Name="ProstorTipDogadjaja">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="*" />
+          <End Role="TipDogadjaja" Type="Self.TipDogadjaja" Multiplicity="*" />
+        </Association>
+        <Association Name="ProstorUsluga">
+          <End Role="Prostor" Type="Self.Prostor" Multiplicity="*" />
+          <End Role="Usluga" Type="Self.Usluga" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="EventSpaceFinderEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Grads" EntityType="Self.Grad" />
+          <EntitySet Name="KalendarZauzetostis" EntityType="Self.KalendarZauzetosti" />
+          <EntitySet Name="Komentars" EntityType="Self.Komentar" />
+          <EntitySet Name="Korisniks" EntityType="Self.Korisnik" />
+          <EntitySet Name="Ocjenas" EntityType="Self.Ocjena" />
+          <EntitySet Name="OmiljeniProstors" EntityType="Self.OmiljeniProstor" />
+          <EntitySet Name="Pakets" EntityType="Self.Paket" />
+          <EntitySet Name="Prostors" EntityType="Self.Prostor" />
+          <EntitySet Name="Rezervacijas" EntityType="Self.Rezervacija" />
+          <EntitySet Name="SlikaProstoras" EntityType="Self.SlikaProstora" />
+          <EntitySet Name="StatusRezervacijes" EntityType="Self.StatusRezervacije" />
+          <EntitySet Name="TipDogadjajas" EntityType="Self.TipDogadjaja" />
+          <EntitySet Name="Uslugas" EntityType="Self.Usluga" />
+          <AssociationSet Name="FK__Prostor__id_grad__412EB0B6" Association="Self.FK__Prostor__id_grad__412EB0B6">
+            <End Role="Grad" EntitySet="Grads" />
+            <End Role="Prostor" EntitySet="Prostors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KalendarZ__id_pr__68487DD7" Association="Self.FK__KalendarZ__id_pr__68487DD7">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="KalendarZauzetosti" EntitySet="KalendarZauzetostis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KalendarZ__id_re__693CA210" Association="Self.FK__KalendarZ__id_re__693CA210">
+            <End Role="Rezervacija" EntitySet="Rezervacijas" />
+            <End Role="KalendarZauzetosti" EntitySet="KalendarZauzetostis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentar__id_kor__75A278F5" Association="Self.FK__Komentar__id_kor__75A278F5">
+            <End Role="Korisnik" EntitySet="Korisniks" />
+            <End Role="Komentar" EntitySet="Komentars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Komentar__id_pro__76969D2E" Association="Self.FK__Komentar__id_pro__76969D2E">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="Komentar" EntitySet="Komentars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ocjena__id_koris__6EF57B66" Association="Self.FK__Ocjena__id_koris__6EF57B66">
+            <End Role="Korisnik" EntitySet="Korisniks" />
+            <End Role="Ocjena" EntitySet="Ocjenas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OmiljeniP__id_ko__7E37BEF6" Association="Self.FK__OmiljeniP__id_ko__7E37BEF6">
+            <End Role="Korisnik" EntitySet="Korisniks" />
+            <End Role="OmiljeniProstor" EntitySet="OmiljeniProstors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_ko__60A75C0F" Association="Self.FK__Rezervaci__id_ko__60A75C0F">
+            <End Role="Korisnik" EntitySet="Korisniks" />
+            <End Role="Rezervacija" EntitySet="Rezervacijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ocjena__id_prost__6FE99F9F" Association="Self.FK__Ocjena__id_prost__6FE99F9F">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="Ocjena" EntitySet="Ocjenas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OmiljeniP__id_pr__7F2BE32F" Association="Self.FK__OmiljeniP__id_pr__7F2BE32F">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="OmiljeniProstor" EntitySet="OmiljeniProstors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paket__id_prosto__5441852A" Association="Self.FK__Paket__id_prosto__5441852A">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="Paket" EntitySet="Pakets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_pa__628FA481" Association="Self.FK__Rezervaci__id_pa__628FA481">
+            <End Role="Paket" EntitySet="Pakets" />
+            <End Role="Rezervacija" EntitySet="Rezervacijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_pr__619B8048" Association="Self.FK__Rezervaci__id_pr__619B8048">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="Rezervacija" EntitySet="Rezervacijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SlikaPros__id_pr__7A672E12" Association="Self.FK__SlikaPros__id_pr__7A672E12">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="SlikaProstora" EntitySet="SlikaProstoras" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rezervaci__id_st__6383C8BA" Association="Self.FK__Rezervaci__id_st__6383C8BA">
+            <End Role="StatusRezervacije" EntitySet="StatusRezervacijes" />
+            <End Role="Rezervacija" EntitySet="Rezervacijas" />
+          </AssociationSet>
+          <AssociationSet Name="PaketUsluga" Association="Self.PaketUsluga">
+            <End Role="Paket" EntitySet="Pakets" />
+            <End Role="Usluga" EntitySet="Uslugas" />
+          </AssociationSet>
+          <AssociationSet Name="ProstorTipDogadjaja" Association="Self.ProstorTipDogadjaja">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="TipDogadjaja" EntitySet="TipDogadjajas" />
+          </AssociationSet>
+          <AssociationSet Name="ProstorUsluga" Association="Self.ProstorUsluga">
+            <End Role="Prostor" EntitySet="Prostors" />
+            <End Role="Usluga" EntitySet="Uslugas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EventSpaceFinderModelStoreContainer" CdmEntityContainer="EventSpaceFinderEntities">
+          <EntitySetMapping Name="Grads">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Grad">
+              <MappingFragment StoreEntitySet="Grad">
+                <ScalarProperty Name="id_grada" ColumnName="id_grada" />
+                <ScalarProperty Name="naziv_grada" ColumnName="naziv_grada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KalendarZauzetostis">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.KalendarZauzetosti">
+              <MappingFragment StoreEntitySet="KalendarZauzetosti">
+                <ScalarProperty Name="id_kalendara" ColumnName="id_kalendara" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="id_rezervacije" ColumnName="id_rezervacije" />
+                <ScalarProperty Name="datum" ColumnName="datum" />
+                <ScalarProperty Name="status_datuma" ColumnName="status_datuma" />
+                <ScalarProperty Name="napomena" ColumnName="napomena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Komentars">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Komentar">
+              <MappingFragment StoreEntitySet="Komentar">
+                <ScalarProperty Name="id_komentara" ColumnName="id_komentara" />
+                <ScalarProperty Name="id_korisnika" ColumnName="id_korisnika" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="tekst_komentara" ColumnName="tekst_komentara" />
+                <ScalarProperty Name="datum_komentara" ColumnName="datum_komentara" />
+                <ScalarProperty Name="odobren" ColumnName="odobren" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisniks">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="id_korisnika" ColumnName="id_korisnika" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+                <ScalarProperty Name="prezime" ColumnName="prezime" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="lozinka" ColumnName="lozinka" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="uloga" ColumnName="uloga" />
+                <ScalarProperty Name="datum_registracije" ColumnName="datum_registracije" />
+                <ScalarProperty Name="aktivan" ColumnName="aktivan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ocjenas">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Ocjena">
+              <MappingFragment StoreEntitySet="Ocjena">
+                <ScalarProperty Name="id_ocjene" ColumnName="id_ocjene" />
+                <ScalarProperty Name="id_korisnika" ColumnName="id_korisnika" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="ocjena1" ColumnName="ocjena" />
+                <ScalarProperty Name="datum_ocjene" ColumnName="datum_ocjene" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OmiljeniProstors">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.OmiljeniProstor">
+              <MappingFragment StoreEntitySet="OmiljeniProstor">
+                <ScalarProperty Name="id_korisnika" ColumnName="id_korisnika" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="datum_dodavanja" ColumnName="datum_dodavanja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pakets">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Paket">
+              <MappingFragment StoreEntitySet="Paket">
+                <ScalarProperty Name="id_paketa" ColumnName="id_paketa" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="naziv_paketa" ColumnName="naziv_paketa" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="cijena" ColumnName="cijena" />
+                <ScalarProperty Name="broj_sati" ColumnName="broj_sati" />
+                <ScalarProperty Name="aktivan" ColumnName="aktivan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Prostors">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Prostor">
+              <MappingFragment StoreEntitySet="Prostor">
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="id_grada" ColumnName="id_grada" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="adresa" ColumnName="adresa" />
+                <ScalarProperty Name="kapacitet" ColumnName="kapacitet" />
+                <ScalarProperty Name="osnovna_cijena" ColumnName="osnovna_cijena" />
+                <ScalarProperty Name="tip_prostora" ColumnName="tip_prostora" />
+                <ScalarProperty Name="aktivan" ColumnName="aktivan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezervacijas">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Rezervacija">
+              <MappingFragment StoreEntitySet="Rezervacija">
+                <ScalarProperty Name="id_rezervacije" ColumnName="id_rezervacije" />
+                <ScalarProperty Name="id_korisnika" ColumnName="id_korisnika" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="id_paketa" ColumnName="id_paketa" />
+                <ScalarProperty Name="id_statusa" ColumnName="id_statusa" />
+                <ScalarProperty Name="datum_rezervacije" ColumnName="datum_rezervacije" />
+                <ScalarProperty Name="datum_dogadjaja" ColumnName="datum_dogadjaja" />
+                <ScalarProperty Name="broj_gostiju" ColumnName="broj_gostiju" />
+                <ScalarProperty Name="ukupna_cijena" ColumnName="ukupna_cijena" />
+                <ScalarProperty Name="napomena" ColumnName="napomena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SlikaProstoras">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.SlikaProstora">
+              <MappingFragment StoreEntitySet="SlikaProstora">
+                <ScalarProperty Name="id_slike" ColumnName="id_slike" />
+                <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+                <ScalarProperty Name="putanja_slike" ColumnName="putanja_slike" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="glavna_slika" ColumnName="glavna_slika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusRezervacijes">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.StatusRezervacije">
+              <MappingFragment StoreEntitySet="StatusRezervacije">
+                <ScalarProperty Name="id_statusa" ColumnName="id_statusa" />
+                <ScalarProperty Name="naziv_statusa" ColumnName="naziv_statusa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipDogadjajas">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.TipDogadjaja">
+              <MappingFragment StoreEntitySet="TipDogadjaja">
+                <ScalarProperty Name="id_tipa_dogadjaja" ColumnName="id_tipa_dogadjaja" />
+                <ScalarProperty Name="naziv_tipa" ColumnName="naziv_tipa" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uslugas">
+            <EntityTypeMapping TypeName="EventSpaceFinderModel.Usluga">
+              <MappingFragment StoreEntitySet="Usluga">
+                <ScalarProperty Name="id_usluge" ColumnName="id_usluge" />
+                <ScalarProperty Name="naziv_usluge" ColumnName="naziv_usluge" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PaketUsluga" TypeName="EventSpaceFinderModel.PaketUsluga" StoreEntitySet="PaketUsluga">
+            <EndProperty Name="Paket">
+              <ScalarProperty Name="id_paketa" ColumnName="id_paketa" />
+            </EndProperty>
+            <EndProperty Name="Usluga">
+              <ScalarProperty Name="id_usluge" ColumnName="id_usluge" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProstorTipDogadjaja" TypeName="EventSpaceFinderModel.ProstorTipDogadjaja" StoreEntitySet="ProstorTipDogadjaja">
+            <EndProperty Name="Prostor">
+              <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+            </EndProperty>
+            <EndProperty Name="TipDogadjaja">
+              <ScalarProperty Name="id_tipa_dogadjaja" ColumnName="id_tipa_dogadjaja" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProstorUsluga" TypeName="EventSpaceFinderModel.ProstorUsluga" StoreEntitySet="ProstorUsluga">
+            <EndProperty Name="Prostor">
+              <ScalarProperty Name="id_prostora" ColumnName="id_prostora" />
+            </EndProperty>
+            <EndProperty Name="Usluga">
+              <ScalarProperty Name="id_usluge" ColumnName="id_usluge" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

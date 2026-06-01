@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -121,10 +129,64 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="EventSpaceModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventSpaceModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventSpaceModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventSpaceModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventSpaceModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Grad.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KalendarZauzetosti.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Komentar.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Korisnik.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ocjena.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OmiljeniProstor.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paket.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Prostor.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rezervacija.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SlikaProstora.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StatusRezervacije.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipDogadjaja.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usluga.cs">
+      <DependentUpon>EventSpaceModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -143,6 +205,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="EventSpaceModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EventSpaceModel.edmx</DependentUpon>
+      <LastGenOutput>EventSpaceModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EventSpaceModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EventSpaceModel.edmx</DependentUpon>
+      <LastGenOutput>EventSpaceModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -152,6 +224,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="EventSpaceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EventSpaceModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EventSpaceModel.edmx.diagram">
+      <DependentUpon>EventSpaceModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -208,6 +287,9 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
