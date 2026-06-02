@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EventSpaceFinder.Prostor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "Prostori", FormMethod.Get))
+{
+    <div class="form-group">
+        <label>Brza pretraga</label>
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Pretraži po nazivu, gradu, adresi..." value="@ViewBag.Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary">Pretraži</button>
+            </span>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.naziv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.opis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.adresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.kapacitet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.osnovna_cijena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tip_prostora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aktivan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grad.naziv_grada)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.opis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.kapacitet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.osnovna_cijena)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tip_prostora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.aktivan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grad.naziv_grada)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id_prostora }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id_prostora }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id_prostora })
+            </td>
+        </tr>
+    }
+
+</table>

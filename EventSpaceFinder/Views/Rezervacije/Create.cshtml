@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Zakazivanje prostora";
+}
+
+<h2>Zakazivanje prostora</h2>
+
+<h4>@ViewBag.naziv_prostora</h4>
+
+@using (Html.BeginForm("Create", "Rezervacije", FormMethod.Post))
+{
+    <input type="hidden" name="id_prostora" value="@ViewBag.id_prostora" />
+
+    <div class="form-group">
+        <label>Paket</label>
+        @Html.DropDownList("id_paketa", null, "Izaberite paket", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Datum događaja</label>
+        <input type="date" name="datum_dogadjaja" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Broj gostiju</label>
+        <input type="number" name="broj_gostiju" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Napomena</label>
+        <textarea name="napomena" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Pošalji upit za rezervaciju</button>
+    @Html.ActionLink("Nazad", "Index", "Prostori", null, new { @class = "btn btn-default" })
+}

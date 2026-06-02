@@ -1,0 +1,82 @@
+﻿@model EventSpaceFinder.Prostor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Prostor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.opis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.opis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.adresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kapacitet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kapacitet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.osnovna_cijena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.osnovna_cijena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tip_prostora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tip_prostora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.aktivan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.aktivan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grad.naziv_grada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grad.naziv_grada)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Zakaži prostor", "Create", "Rezervacije", new { id_prostora = Model.id_prostora }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</p>

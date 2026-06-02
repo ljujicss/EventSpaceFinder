@@ -1,0 +1,39 @@
+﻿@model IEnumerable<EventSpaceFinder.Prostor>
+
+@{
+    ViewBag.Title = "Rezultati pretrage";
+}
+
+<h2>Rezultati pretrage</h2>
+
+<p>
+    @Html.ActionLink("Nova pretraga", "DetaljnaPretraga", null, new { @class = "btn btn-default" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Naziv</th>
+        <th>Grad</th>
+        <th>Adresa</th>
+        <th>Kapacitet</th>
+        <th>Osnovna cijena</th>
+        <th>Tip prostora</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.naziv</td>
+            <td>@item.Grad.naziv_grada</td>
+            <td>@item.adresa</td>
+            <td>@item.kapacitet</td>
+            <td>@item.osnovna_cijena</td>
+            <td>@item.tip_prostora</td>
+            <td>
+                @Html.ActionLink("Detalji", "Details", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
