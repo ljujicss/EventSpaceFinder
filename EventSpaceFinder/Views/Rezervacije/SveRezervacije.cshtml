@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EventSpaceFinder.Rezervacija>
+
+@{
+    ViewBag.Title = "Sve rezervacije";
+}
+
+<h2>Sve rezervacije</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Korisnik</th>
+        <th>Prostor</th>
+        <th>Paket</th>
+        <th>Datum događaja</th>
+        <th>Broj gostiju</th>
+        <th>Ukupna cijena</th>
+        <th>Status</th>
+        <th>Napomena</th>
+        <th>Promjena statusa</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Korisnik.ime @item.Korisnik.prezime</td>
+            <td>@item.Prostor.naziv</td>
+            <td>@item.Paket.naziv_paketa</td>
+            <td>@item.datum_dogadjaja.ToString("dd.MM.yyyy")</td>
+            <td>@item.broj_gostiju</td>
+            <td>@item.ukupna_cijena</td>
+            <td>@item.StatusRezervacije.naziv_statusa</td>
+            <td>@item.napomena</td>
+            <td>
+                @using (Html.BeginForm("PromijeniStatus", "Rezervacije", FormMethod.Post))
+                {
+                    <input type="hidden" name="id_rezervacije" value="@item.id_rezervacije" />
+
+                    <select name="id_statusa" class="form-control">
+                        <option value="1" @(item.id_statusa == 1 ? "selected" : "")>Na čekanju</option>
+                        <option value="2" @(item.id_statusa == 2 ? "selected" : "")>Prihvaćena</option>
+                        <option value="3" @(item.id_statusa == 3 ? "selected" : "")>Odbijena</option>
+                        <option value="4" @(item.id_statusa == 4 ? "selected" : "")>Otkazana</option>
+                        <option value="5" @(item.id_statusa == 5 ? "selected" : "")>Završena</option>
+                    </select>
+
+                    <br />
+
+                    <button type="submit" class="btn btn-primary btn-sm">Sačuvaj</button>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

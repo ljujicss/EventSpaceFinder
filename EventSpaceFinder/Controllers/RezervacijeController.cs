@@ -54,6 +54,31 @@ namespace EventSpaceFinder.Controllers
             return View(rezervacije);
         }
 
+        public ActionResult SveRezervacije()
+        {
+            var rezervacije = db.Rezervacijas
+                .OrderByDescending(r => r.datum_rezervacije)
+                .ToList();
+
+            return View(rezervacije);
+        }
+
+        [HttpPost]
+        public ActionResult PromijeniStatus(int id_rezervacije, int id_statusa)
+        {
+            Rezervacija rezervacija = db.Rezervacijas.Find(id_rezervacije);
+
+            if (rezervacija == null)
+            {
+                return HttpNotFound();
+            }
+
+            rezervacija.id_statusa = id_statusa;
+
+            db.SaveChanges();
+
+            return RedirectToAction("SveRezervacije");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
