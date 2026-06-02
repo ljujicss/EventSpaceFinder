@@ -45,7 +45,12 @@ namespace EventSpaceFinder.Controllers
 
         public ActionResult MojeRezervacije()
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             var rezervacije = db.Rezervacijas
                 .Where(r => r.id_korisnika == id_korisnika)

@@ -11,7 +11,12 @@ namespace EventSpaceFinder.Controllers
         [HttpPost]
         public ActionResult Dodaj(int id_prostora)
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             OmiljeniProstor omiljeni = db.OmiljeniProstors.FirstOrDefault(o => o.id_korisnika == id_korisnika && o.id_prostora == id_prostora);
 
@@ -33,7 +38,12 @@ namespace EventSpaceFinder.Controllers
         [HttpPost]
         public ActionResult Ukloni(int id_prostora)
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             OmiljeniProstor omiljeni = db.OmiljeniProstors.FirstOrDefault(o => o.id_korisnika == id_korisnika && o.id_prostora == id_prostora);
 
@@ -48,7 +58,12 @@ namespace EventSpaceFinder.Controllers
 
         public ActionResult MojiOmiljeni()
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             var omiljeni = db.OmiljeniProstors.Where(o => o.id_korisnika == id_korisnika).ToList();
 

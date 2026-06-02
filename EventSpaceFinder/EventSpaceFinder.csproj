@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KomentariController.cs" />
+    <Compile Include="Controllers\KorisniciController.cs" />
     <Compile Include="Controllers\OcjeneController.cs" />
     <Compile Include="Controllers\OmiljeniProstorController.cs" />
     <Compile Include="Controllers\ProstoriController.cs" />
@@ -270,6 +271,8 @@
     <Content Include="Views\OmiljeniProstor\MojOmiljeni.cshtml" />
     <Content Include="Views\Rezervacije\MojeRezervacije.cshtml" />
     <Content Include="Views\Rezervacije\SveRezervacije.cshtml" />
+    <Content Include="Views\Korisnici\Register.cshtml" />
+    <Content Include="Views\Korisnici\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

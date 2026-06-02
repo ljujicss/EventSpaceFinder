@@ -10,7 +10,12 @@ namespace EventSpaceFinder.Controllers
         [HttpPost]
         public ActionResult Create(int id_prostora, string tekst_komentara)
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             if (!String.IsNullOrEmpty(tekst_komentara))
             {

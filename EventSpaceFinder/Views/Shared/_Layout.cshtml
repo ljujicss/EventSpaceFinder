@@ -20,9 +20,24 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Prostori", "Index", "Prostori", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Detaljna pretraga", "DetaljnaPretraga", "Prostori", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Omiljeni prostori", "MojiOmiljeni", "OmiljeniProstori", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
+
+                    @if (Session["id_korisnika"] != null)
+                    {
+                        <li>@Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Omiljeni prostori", "MojiOmiljeni", "OmiljeniProstori", new { area = "" }, new { @class = "nav-link" })</li>
+
+                        if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
+                        {
+                            <li>@Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                        <li class="nav-link">Korisnik: @Session["ime"]</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Registracija", "Register", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
             </div>
         </div>
