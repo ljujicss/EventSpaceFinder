@@ -75,6 +75,121 @@
         </dd>
 
     </dl>
+    <hr />
+    <hr />
+
+    <h3>Ocjene</h3>
+
+    @if (Model.Ocjenas != null && Model.Ocjenas.Any())
+    {
+        decimal suma = 0;
+        int broj = 0;
+
+        foreach (var o in Model.Ocjenas)
+        {
+            suma = suma + o.ocjena1;
+            broj++;
+        }
+
+        decimal prosjek = suma / broj;
+
+        <p><b>Prosječna ocjena:</b> @prosjek.ToString("0.00") / 5</p>
+        <p><b>Broj ocjena:</b> @broj</p>
+    }
+    else
+    {
+        <p>Ovaj prostor još nema ocjena.</p>
+    }
+
+    <h4>Dodaj ocjenu</h4>
+
+    @using (Html.BeginForm("Create", "Ocjene", FormMethod.Post))
+    {
+        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+
+        <div class="form-group">
+            <label>Ocjena</label>
+            <select name="ocjena" class="form-control" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sačuvaj ocjenu</button>
+    }
+
+    <h3>Komentari</h3>
+
+    @if (Model.Komentars != null && Model.Komentars.Any(k => k.odobren == true))
+    {
+        foreach (var komentar in Model.Komentars.Where(k => k.odobren == true))
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>@komentar.tekst_komentara</p>
+
+                    <small>
+                        @komentar.Korisnik.ime @komentar.Korisnik.prezime,
+                        @komentar.datum_komentara.ToString("dd.MM.yyyy")
+                    </small>
+
+                    <br />
+                    <br />
+
+                    @using (Html.BeginForm("Delete", "Komentari", FormMethod.Post))
+                    {
+                        <input type="hidden" name="id_komentara" value="@komentar.id_komentara" />
+                        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+
+                        <button type="submit" class="btn btn-danger btn-sm">Obriši</button>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Nema komentara za ovaj prostor.</p>
+    }
+
+    }<h4>Dodaj komentar</h4>
+
+    @using (Html.BeginForm("Create", "Komentari", FormMethod.Post))
+    {
+        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+
+        <div class="form-group">
+            <label>Komentar</label>
+            <textarea name="tekst_komentara" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sačuvaj komentar</button>
+    }
+
+    @{
+        int idKorisnika = 2;
+        bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
+    }
+
+    @if (!vecJeOmiljeni)
+    {
+        using (Html.BeginForm("Dodaj", "OmiljeniProstori", FormMethod.Post))
+        {
+            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+            <button type="submit" class="btn btn-success">Dodaj u omiljene</button>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
+        {
+            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+            <button type="submit" class="btn btn-warning">Ukloni iz omiljenih</button>
+        }
+    }
 </div>
 <p>
     @Html.ActionLink("Zakaži prostor", "Create", "Rezervacije", new { id_prostora = Model.id_prostora }, new { @class = "btn btn-primary" })

@@ -43,6 +43,17 @@ namespace EventSpaceFinder.Controllers
             return RedirectToAction("Index", "Prostori");
         }
 
+        public ActionResult MojeRezervacije()
+        {
+            int id_korisnika = 2;
+
+            var rezervacije = db.Rezervacijas
+                .Where(r => r.id_korisnika == id_korisnika)
+                .ToList();
+
+            return View(rezervacije);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

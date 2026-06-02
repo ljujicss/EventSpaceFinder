@@ -130,6 +130,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KomentariController.cs" />
+    <Compile Include="Controllers\OcjeneController.cs" />
+    <Compile Include="Controllers\OmiljeniProstorController.cs" />
     <Compile Include="Controllers\ProstoriController.cs" />
     <Compile Include="Controllers\RezervacijeController.cs" />
     <Compile Include="EventSpaceModel.Context.cs">
@@ -264,10 +267,14 @@
     <Content Include="Views\Prostori\DetaljnaPretraga.cshtml" />
     <Content Include="Views\Prostori\RezultatiPretrage.cshtml" />
     <Content Include="Views\Rezervacije\Create.cshtml" />
+    <Content Include="Views\OmiljeniProstor\MojOmiljeni.cshtml" />
+    <Content Include="Views\Rezervacije\MojeRezervacije.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Komentari\" />
+    <Folder Include="Views\Ocjene\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

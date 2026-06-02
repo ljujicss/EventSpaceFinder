@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EventSpaceFinder.Rezervacija>
+
+@{
+    ViewBag.Title = "Moje rezervacije";
+}
+
+<h2>Moje rezervacije</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Prostor</th>
+            <th>Paket</th>
+            <th>Datum događaja</th>
+            <th>Broj gostiju</th>
+            <th>Ukupna cijena</th>
+            <th>Status</th>
+            <th>Napomena</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Prostor.naziv</td>
+                <td>@item.Paket.naziv_paketa</td>
+                <td>@item.datum_dogadjaja.ToString("dd.MM.yyyy")</td>
+                <td>@item.broj_gostiju</td>
+                <td>@item.ukupna_cijena</td>
+                <td>@item.StatusRezervacije.naziv_statusa</td>
+                <td>@item.napomena</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>Nemate rezervacija.</p>
+}
+
+<p>
+    @Html.ActionLink("Nazad na prostore", "Index", "Prostori", null, new { @class = "btn btn-default" })
+</p>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EventSpaceFinder.OmiljeniProstor>
+
+@{
+    ViewBag.Title = "Moji omiljeni prostori";
+}
+
+<h2>Moji omiljeni prostori</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Naziv prostora</th>
+        <th>Grad</th>
+        <th>Adresa</th>
+        <th>Kapacitet</th>
+        <th>Datum dodavanja</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Prostor.naziv</td>
+            <td>@item.Prostor.Grad.naziv_grada</td>
+            <td>@item.Prostor.adresa</td>
+            <td>@item.Prostor.kapacitet</td>
+            <td>@item.datum_dodavanja.ToString("dd.MM.yyyy")</td>
+            <td>
+                @Html.ActionLink("Detalji", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
