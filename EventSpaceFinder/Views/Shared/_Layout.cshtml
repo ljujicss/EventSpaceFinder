@@ -30,7 +30,8 @@
                         if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
                         {
                             <li>@Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
-                        }
+                            <li>@Html.ActionLink("Admin paketi", "Index", "Paketi", new { area = "" }, new { @class = "nav-link" })</li>
+                            }
                         <li class="nav-link">Korisnik: @Session["ime"]</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
                     }

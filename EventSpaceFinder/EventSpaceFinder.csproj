@@ -134,6 +134,7 @@
     <Compile Include="Controllers\KorisniciController.cs" />
     <Compile Include="Controllers\OcjeneController.cs" />
     <Compile Include="Controllers\OmiljeniProstorController.cs" />
+    <Compile Include="Controllers\PaketiController.cs" />
     <Compile Include="Controllers\PreporukaController.cs" />
     <Compile Include="Controllers\ProstoriController.cs" />
     <Compile Include="Controllers\RezervacijeController.cs" />
@@ -278,6 +279,10 @@
     <Content Include="Views\Prostori\Create.cshtml" />
     <Content Include="Views\Prostori\Edit.cshtml" />
     <Content Include="Views\Prostori\Delete.cshtml" />
+    <Content Include="Views\Paketi\Index.cshtml" />
+    <Content Include="Views\Paketi\Create.cshtml" />
+    <Content Include="Views\Paketi\Edit.cshtml" />
+    <Content Include="Views\Paketi\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

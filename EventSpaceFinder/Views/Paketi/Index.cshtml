@@ -1,0 +1,63 @@
+﻿@model IEnumerable<EventSpaceFinder.Paket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.naziv_paketa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.opis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cijena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.broj_sati)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aktivan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prostor.naziv)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.naziv_paketa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.opis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cijena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.broj_sati)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aktivan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prostor.naziv)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_paketa }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_paketa }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_paketa })
+        </td>
+    </tr>
+}
+
+</table>
