@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EventSpaceFinder.Controllers
@@ -45,6 +46,59 @@ namespace EventSpaceFinder.Controllers
             }
 
             return RedirectToAction("Details", "Prostori", new { id = id_prostora });
+        }
+
+        public ActionResult AdminKomentari()
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            var komentari = db.Komentars.ToList();
+
+            return View(komentari);
+        }
+
+        [HttpPost]
+        public ActionResult PromijeniOdobren(int id_komentara)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Komentar komentar = db.Komentars.Find(id_komentara);
+
+            if (komentar == null)
+            {
+                return HttpNotFound();
+            }
+
+            komentar.odobren = !komentar.odobren;
+
+            db.SaveChanges();
+
+            return RedirectToAction("AdminKomentari");
+        }
+
+        [HttpPost]
+        public ActionResult AdminDelete(int id_komentara)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Komentar komentar = db.Komentars.Find(id_komentara);
+
+            if (komentar != null)
+            {
+                db.Komentars.Remove(komentar);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("AdminKomentari");
         }
         protected override void Dispose(bool disposing)
         {

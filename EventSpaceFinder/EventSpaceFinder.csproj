@@ -283,11 +283,11 @@
     <Content Include="Views\Paketi\Create.cshtml" />
     <Content Include="Views\Paketi\Edit.cshtml" />
     <Content Include="Views\Paketi\Delete.cshtml" />
+    <Content Include="Views\Komentari\AdminKomentari.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Komentari\" />
     <Folder Include="Views\Ocjene\" />
     <Folder Include="Views\PreporuciNajbolji\" />
   </ItemGroup>

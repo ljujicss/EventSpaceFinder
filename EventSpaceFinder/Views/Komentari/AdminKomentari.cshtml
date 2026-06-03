@@ -1,0 +1,62 @@
+﻿
+@model IEnumerable<EventSpaceFinder.Komentar>
+
+@{
+    ViewBag.Title = "Admin komentari";
+}
+
+<h2>Admin komentari</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Korisnik</th>
+        <th>Prostor</th>
+        <th>Komentar</th>
+        <th>Datum</th>
+        <th>Odobren</th>
+        <th>Akcije</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Korisnik.ime @item.Korisnik.prezime</td>
+            <td>@item.Prostor.naziv</td>
+            <td>@item.tekst_komentara</td>
+            <td>@item.datum_komentara.ToString("dd.MM.yyyy")</td>
+            <td>
+                @if (item.odobren)
+                {
+                    <span class="label label-success">Da</span>
+                }
+                else
+                {
+                    <span class="label label-warning">Ne</span>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("PromijeniOdobren", "Komentari", FormMethod.Post))
+                {
+                    <input type="hidden" name="id_komentara" value="@item.id_komentara" />
+
+                    if (item.odobren)
+                    {
+                        <button type="submit" class="btn btn-warning btn-sm">Sakrij</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-success btn-sm">Odobri</button>
+                    }
+                }
+
+                <br />
+
+                @using (Html.BeginForm("AdminDelete", "Komentari", FormMethod.Post))
+                {
+                    <input type="hidden" name="id_komentara" value="@item.id_komentara" />
+                    <button type="submit" class="btn btn-danger btn-sm">Obriši</button>
+                }
+            </td>
+        </tr>
+    }
+</table>
