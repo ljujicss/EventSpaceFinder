@@ -90,6 +90,135 @@ namespace EventSpaceFinder.Controllers
             return View(prostor);
         }
 
+        public ActionResult Create()
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            ViewBag.id_grada = new SelectList(db.Grads, "id_grada", "naziv_grada");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Prostor prostor)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            if (ModelState.IsValid)
+            {
+                prostor.aktivan = true;
+
+                db.Prostors.Add(prostor);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.id_grada = new SelectList(db.Grads, "id_grada", "naziv_grada", prostor.id_grada);
+
+            return View(prostor);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Prostor prostor = db.Prostors.Find(id);
+
+            if (prostor == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.id_grada = new SelectList(db.Grads, "id_grada", "naziv_grada", prostor.id_grada);
+
+            return View(prostor);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Prostor prostor)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Prostor stariProstor = db.Prostors.Find(prostor.id_prostora);
+
+            if (stariProstor == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                stariProstor.id_grada = prostor.id_grada;
+                stariProstor.naziv = prostor.naziv;
+                stariProstor.opis = prostor.opis;
+                stariProstor.adresa = prostor.adresa;
+                stariProstor.kapacitet = prostor.kapacitet;
+                stariProstor.osnovna_cijena = prostor.osnovna_cijena;
+                stariProstor.tip_prostora = prostor.tip_prostora;
+                stariProstor.aktivan = prostor.aktivan;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.id_grada = new SelectList(db.Grads, "id_grada", "naziv_grada", prostor.id_grada);
+
+            return View(prostor);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Prostor prostor = db.Prostors.Find(id);
+
+            if (prostor == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(prostor);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            Prostor prostor = db.Prostors.Find(id);
+
+            if (prostor == null)
+            {
+                return HttpNotFound();
+            }
+
+            prostor.aktivan = false;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

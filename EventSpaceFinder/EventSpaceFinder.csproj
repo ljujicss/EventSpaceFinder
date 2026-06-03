@@ -275,6 +275,9 @@
     <Content Include="Views\Korisnici\Register.cshtml" />
     <Content Include="Views\Korisnici\Login.cshtml" />
     <Content Include="Views\Preporuka\Index.cshtml" />
+    <Content Include="Views\Prostori\Create.cshtml" />
+    <Content Include="Views\Prostori\Edit.cshtml" />
+    <Content Include="Views\Prostori\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,6 +20,13 @@
     </div>
 }
 
+@if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
+{
+    <p>
+        @Html.ActionLink("Dodaj novi prostor", "Create", null, new { @class = "btn btn-success" })
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>Slika</th>
@@ -36,6 +43,8 @@
     @foreach (var item in Model)
     {
         var glavnaSlika = item.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
+
+
 
         <tr>
             <td>
@@ -79,6 +88,12 @@
 
             <td>
                 @Html.ActionLink("Detalji", "Details", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
+
+                @if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
+                {
+                    @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_prostora }, new { @class = "btn btn-warning btn-sm" })
+                    @Html.ActionLink("Obriši", "Delete", new { id = item.id_prostora }, new { @class = "btn btn-danger btn-sm" })
+                }
             </td>
         </tr>
     }
