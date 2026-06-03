@@ -1,0 +1,73 @@
+﻿@model IEnumerable<EventSpaceFinder.Controllers.PreporukaRezultat>
+
+@{
+    ViewBag.Title = "Preporuka najboljeg prostora";
+}
+
+<h2>Preporuka najboljeg prostora</h2>
+
+@using (Html.BeginForm("Index", "Preporuka", FormMethod.Post))
+{
+    <div class="form-group">
+        <label>Grad</label>
+        @Html.DropDownList("id_grada", null, "Izaberite grad", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Tip događaja</label>
+        @Html.DropDownList("id_tipa_dogadjaja", null, "Izaberite tip događaja", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Broj gostiju</label>
+        <input type="number" name="broj_gostiju" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Budžet</label>
+        <input type="number" name="budzet" class="form-control" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label>Datum događaja</label>
+        <input type="date" name="datum_dogadjaja" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Pronađi najbolji prostor</button>
+}
+
+@if (Model != null && Model.Any())
+{
+    <hr />
+
+    <h3>Najbolji preporučeni prostor</h3>
+
+    foreach (var item in Model)
+    {
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4>@item.naziv</h4>
+            </div>
+
+            <div class="panel-body">
+                <p><b>Grad:</b> @item.grad</p>
+                <p><b>Adresa:</b> @item.adresa</p>
+                <p><b>Kapacitet:</b> @item.kapacitet</p>
+                <p><b>Tip prostora:</b> @item.tip_prostora</p>
+                <p><b>Osnovna cijena:</b> @item.osnovna_cijena</p>
+                <p><b>Prosječna ocjena:</b> @item.prosjecna_ocjena</p>
+                <p><b>Broj ocjena:</b> @item.broj_ocjena</p>
+                <p><b>Najbolji paket:</b> @item.najbolji_paket</p>
+                <p><b>Cijena paketa:</b> @item.cijena_paketa</p>
+                <p><b>Bodovi:</b> @item.bodovi</p>
+
+                @Html.ActionLink("Detalji prostora", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-info" })
+            </div>
+        </div>
+    }
+}
+else if (IsPost)
+{
+    <hr />
+    <p>Nije pronađen prostor koji odgovara unesenim kriterijumima.</p>
+}

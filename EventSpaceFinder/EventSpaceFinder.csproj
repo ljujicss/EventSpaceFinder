@@ -134,6 +134,7 @@
     <Compile Include="Controllers\KorisniciController.cs" />
     <Compile Include="Controllers\OcjeneController.cs" />
     <Compile Include="Controllers\OmiljeniProstorController.cs" />
+    <Compile Include="Controllers\PreporukaController.cs" />
     <Compile Include="Controllers\ProstoriController.cs" />
     <Compile Include="Controllers\RezervacijeController.cs" />
     <Compile Include="EventSpaceModel.Context.cs">
@@ -273,12 +274,14 @@
     <Content Include="Views\Rezervacije\SveRezervacije.cshtml" />
     <Content Include="Views\Korisnici\Register.cshtml" />
     <Content Include="Views\Korisnici\Login.cshtml" />
+    <Content Include="Views\Preporuka\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Komentari\" />
     <Folder Include="Views\Ocjene\" />
+    <Folder Include="Views\PreporuciNajbolji\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

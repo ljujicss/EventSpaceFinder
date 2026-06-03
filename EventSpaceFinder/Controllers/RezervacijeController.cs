@@ -28,7 +28,12 @@ namespace EventSpaceFinder.Controllers
         [HttpPost]
         public ActionResult Create(int id_prostora, int id_paketa, DateTime datum_dogadjaja, int broj_gostiju, string napomena)
         {
-            int id_korisnika = 2;
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
             db.Database.ExecuteSqlCommand(
                 "EXEC sp_DodajRezervaciju @id_korisnika, @id_prostora, @id_paketa, @datum_dogadjaja, @broj_gostiju, @napomena",
@@ -61,6 +66,10 @@ namespace EventSpaceFinder.Controllers
 
         public ActionResult SveRezervacije()
         {
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
             var rezervacije = db.Rezervacijas
                 .OrderByDescending(r => r.datum_rezervacije)
                 .ToList();
@@ -71,7 +80,15 @@ namespace EventSpaceFinder.Controllers
         [HttpPost]
         public ActionResult PromijeniStatus(int id_rezervacije, int id_statusa)
         {
+
+            if (Session["uloga"] == null || Session["uloga"].ToString() != "Admin")
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
             Rezervacija rezervacija = db.Rezervacijas.Find(id_rezervacije);
+
+
 
             if (rezervacija == null)
             {

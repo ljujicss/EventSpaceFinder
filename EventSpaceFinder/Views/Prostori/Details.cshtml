@@ -170,7 +170,13 @@
     }
 
     @{
-        int idKorisnika = 2;
+        int idKorisnika = 0;
+
+        if (Session["id_korisnika"] != null)
+        {
+            idKorisnika = Convert.ToInt32(Session["id_korisnika"]);
+        }
+
         bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
     }
 
