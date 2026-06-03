@@ -1,81 +1,64 @@
 ﻿@model EventSpaceFinder.Prostor
+@using System.Linq
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalji prostora";
 }
 
-<h2>Details</h2>
+<h2>Detalji prostora</h2>
 
 <div>
-    <h4>Prostor</h4>
+    <h4>@Model.naziv</h4>
     <hr />
+
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.naziv)
-        </dt>
+        <dt>Naziv</dt>
+        <dd>@Html.DisplayFor(model => model.naziv)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.naziv)
-        </dd>
+        <dt>Opis</dt>
+        <dd>@Html.DisplayFor(model => model.opis)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.opis)
-        </dt>
+        <dt>Adresa</dt>
+        <dd>@Html.DisplayFor(model => model.adresa)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.opis)
-        </dd>
+        <dt>Kapacitet</dt>
+        <dd>@Html.DisplayFor(model => model.kapacitet)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.adresa)
-        </dt>
+        <dt>Osnovna cijena</dt>
+        <dd>@Html.DisplayFor(model => model.osnovna_cijena)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.adresa)
-        </dd>
+        <dt>Tip prostora</dt>
+        <dd>@Html.DisplayFor(model => model.tip_prostora)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.kapacitet)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.kapacitet)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.osnovna_cijena)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.osnovna_cijena)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tip_prostora)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tip_prostora)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.aktivan)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.aktivan)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Grad.naziv_grada)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Grad.naziv_grada)
-        </dd>
-
+        <dt>Grad</dt>
+        <dd>@Html.DisplayFor(model => model.Grad.naziv_grada)</dd>
     </dl>
+
     <hr />
+
+    <h3>Slike prostora</h3>
+
+    @if (Model.SlikaProstoras != null && Model.SlikaProstoras.Any())
+    {
+        <div class="row">
+            @foreach (var slika in Model.SlikaProstoras)
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img src="@slika.putanja_slike" style="width:100%; height:220px; object-fit:cover;" />
+                        <div class="caption">
+                            <p>@slika.opis</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Nema dodatih slika za ovaj prostor.</p>
+    }
+
     <hr />
 
     <h3>Ocjene</h3>
@@ -121,6 +104,8 @@
         <button type="submit" class="btn btn-primary">Sačuvaj ocjenu</button>
     }
 
+    <hr />
+
     <h3>Komentari</h3>
 
     @if (Model.Komentars != null && Model.Komentars.Any(k => k.odobren == true))
@@ -155,7 +140,7 @@
         <p>Nema komentara za ovaj prostor.</p>
     }
 
-    }<h4>Dodaj komentar</h4>
+    <h4>Dodaj komentar</h4>
 
     @using (Html.BeginForm("Create", "Komentari", FormMethod.Post))
     {
@@ -169,35 +154,43 @@
         <button type="submit" class="btn btn-primary">Sačuvaj komentar</button>
     }
 
-    @{
-        int idKorisnika = 0;
+    <hr />
 
-        if (Session["id_korisnika"] != null)
-        {
-            idKorisnika = Convert.ToInt32(Session["id_korisnika"]);
-        }
+    <h3>Omiljeni prostor</h3>
 
-        bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
-    }
-
-    @if (!vecJeOmiljeni)
+    @if (Session["id_korisnika"] != null)
     {
-        using (Html.BeginForm("Dodaj", "OmiljeniProstori", FormMethod.Post))
+        int idKorisnika = Convert.ToInt32(Session["id_korisnika"]);
+        bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
+
+        if (!vecJeOmiljeni)
         {
-            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
-            <button type="submit" class="btn btn-success">Dodaj u omiljene</button>
+            using (Html.BeginForm("Dodaj", "OmiljeniProstori", FormMethod.Post))
+            {
+                <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+                <button type="submit" class="btn btn-success">Dodaj u omiljene</button>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
+            {
+                <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+                <button type="submit" class="btn btn-warning">Ukloni iz omiljenih</button>
+            }
         }
     }
     else
     {
-        using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
-        {
-            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
-            <button type="submit" class="btn btn-warning">Ukloni iz omiljenih</button>
-        }
+        <p>
+            @Html.ActionLink("Prijavite se da dodate u omiljene", "Login", "Korisnici", null, new { @class = "btn btn-default" })
+        </p>
     }
 </div>
+
+<hr />
+
 <p>
     @Html.ActionLink("Zakaži prostor", "Create", "Rezervacije", new { id_prostora = Model.id_prostora }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Nazad na listu", "Index", null, new { @class = "btn btn-default" })
 </p>
