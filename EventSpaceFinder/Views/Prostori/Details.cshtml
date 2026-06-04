@@ -3,117 +3,144 @@
 
 @{
     ViewBag.Title = "Detalji prostora";
+
+    var glavnaSlika = Model.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
 }
 
-<h2>Detalji prostora</h2>
-
-<div>
-    <h4>@Model.naziv</h4>
-    <hr />
-
-    <dl class="dl-horizontal">
-        <dt>Naziv</dt>
-        <dd>@Html.DisplayFor(model => model.naziv)</dd>
-
-        <dt>Opis</dt>
-        <dd>@Html.DisplayFor(model => model.opis)</dd>
-
-        <dt>Adresa</dt>
-        <dd>@Html.DisplayFor(model => model.adresa)</dd>
-
-        <dt>Kapacitet</dt>
-        <dd>@Html.DisplayFor(model => model.kapacitet)</dd>
-
-        <dt>Osnovna cijena</dt>
-        <dd>@Html.DisplayFor(model => model.osnovna_cijena)</dd>
-
-        <dt>Tip prostora</dt>
-        <dd>@Html.DisplayFor(model => model.tip_prostora)</dd>
-
-        <dt>Grad</dt>
-        <dd>@Html.DisplayFor(model => model.Grad.naziv_grada)</dd>
-    </dl>
-
-    <hr />
-
-    <h3>Slike prostora</h3>
-
-    @if (Model.SlikaProstoras != null && Model.SlikaProstoras.Any())
+<div class="details-hero">
+    @if (glavnaSlika != null)
     {
-        <div class="row">
-            @foreach (var slika in Model.SlikaProstoras)
-            {
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="@slika.putanja_slike" style="width:100%; height:220px; object-fit:cover;" />
-                        <div class="caption">
-                            <p>@slika.opis</p>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        <img src="@glavnaSlika.putanja_slike" alt="@Model.naziv" />
     }
     else
     {
-        <p>Nema dodatih slika za ovaj prostor.</p>
+        <div class="details-no-image">Nema slike</div>
     }
 
-    <hr />
+    <div class="details-hero-text">
+        <p class="section-small">DETALJI PROSTORA</p>
+        <h1>@Model.naziv</h1>
+        <p>@Model.Grad.naziv_grada · @Model.tip_prostora</p>
+    </div>
+</div>
 
-    <h3>Ocjene</h3>
+<div class="details-page">
+    <div class="details-main">
+        <h2>@Model.naziv</h2>
 
-    @if (Model.Ocjenas != null && Model.Ocjenas.Any())
-    {
-        decimal suma = 0;
-        int broj = 0;
+        <p class="details-description">
+            @Model.opis
+        </p>
 
-        foreach (var o in Model.Ocjenas)
-        {
-            suma = suma + o.ocjena1;
-            broj++;
+        <div class="details-info-grid">
+            <div class="details-info-box">
+                <span>Grad</span>
+                <b>@Model.Grad.naziv_grada</b>
+            </div>
+
+            <div class="details-info-box">
+                <span>Adresa</span>
+                <b>@Model.adresa</b>
+            </div>
+
+            <div class="details-info-box">
+                <span>Kapacitet</span>
+                <b>@Model.kapacitet gostiju</b>
+            </div>
+
+            <div class="details-info-box">
+                <span>Osnovna cijena</span>
+                <b>@Model.osnovna_cijena €</b>
+            </div>
+        </div>
+
+        <hr />
+
+        <h3>Galerija prostora</h3>
+
+        @{
+            var sporedneSlike = Model.SlikaProstoras
+                .Where(s => s.glavna_slika == false)
+                .GroupBy(s => s.putanja_slike)
+                .Select(g => g.First())
+                .ToList();
         }
 
-        decimal prosjek = suma / broj;
+        @if (sporedneSlike != null && sporedneSlike.Any())
+        {
+            <div class="details-gallery">
+                @foreach (var slika in sporedneSlike)
+                {
+                    <div class="gallery-item">
+                        <img src="@slika.putanja_slike" alt="@Model.naziv" />
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Nema dodatih sporednih slika za ovaj prostor.</p>
+        }
 
-        <p><b>Prosječna ocjena:</b> @prosjek.ToString("0.00") / 5</p>
-        <p><b>Broj ocjena:</b> @broj</p>
-    }
-    else
-    {
-        <p>Ovaj prostor još nema ocjena.</p>
-    }
+        <hr />
 
-    <h4>Dodaj ocjenu</h4>
+        <h3>Ocjene</h3>
 
-    @using (Html.BeginForm("Create", "Ocjene", FormMethod.Post))
-    {
-        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+        @if (Model.Ocjenas != null && Model.Ocjenas.Any())
+        {
+            decimal suma = 0;
+            int broj = 0;
 
-        <div class="form-group">
-            <label>Ocjena</label>
-            <select name="ocjena" class="form-control" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            foreach (var o in Model.Ocjenas)
+            {
+                suma = suma + o.ocjena1;
+                broj++;
+            }
+
+            decimal prosjek = suma / broj;
+
+            <div class="rating-box">
+                <h4>@prosjek.ToString("0.00") / 5</h4>
+                <p>Broj ocjena: @broj</p>
+            </div>
+        }
+        else
+        {
+            <p>Ovaj prostor još nema ocjena.</p>
+        }
+
+        <div class="details-form-box">
+            <h4>Dodaj ocjenu</h4>
+
+            @using (Html.BeginForm("Create", "Ocjene", FormMethod.Post))
+            {
+                <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+
+                <div class="form-group">
+                    <label>Ocjena</label>
+                    <select name="ocjena" class="form-control" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Sačuvaj ocjenu</button>
+            }
         </div>
 
-        <button type="submit" class="btn btn-primary">Sačuvaj ocjenu</button>
-    }
+        
+        <hr />
 
-    <hr />
+        <h3>Komentari</h3>
 
-    <h3>Komentari</h3>
-
-    @if (Model.Komentars != null && Model.Komentars.Any(k => k.odobren == true))
-    {
-        foreach (var komentar in Model.Komentars.Where(k => k.odobren == true))
+        @if (Model.Komentars != null && Model.Komentars.Any(k => k.odobren == true))
         {
-            <div class="panel panel-default">
-                <div class="panel-body">
+            foreach (var komentar in Model.Komentars.Where(k => k.odobren == true))
+            {
+                <div class="comment-box">
                     <p>@komentar.tekst_komentara</p>
 
                     <small>
@@ -124,73 +151,83 @@
                     <br />
                     <br />
 
-                    @using (Html.BeginForm("Delete", "Komentari", FormMethod.Post))
+                    @if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
                     {
-                        <input type="hidden" name="id_komentara" value="@komentar.id_komentara" />
-                        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+                        using (Html.BeginForm("Delete", "Komentari", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id_komentara" value="@komentar.id_komentara" />
+                            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
 
-                        <button type="submit" class="btn btn-danger btn-sm">Obriši</button>
+                            <button type="submit" class="btn btn-delete-soft btn-sm">Obriši</button>
+                        }
                     }
                 </div>
-            </div>
-        }
-    }
-    else
-    {
-        <p>Nema komentara za ovaj prostor.</p>
-    }
-
-    <h4>Dodaj komentar</h4>
-
-    @using (Html.BeginForm("Create", "Komentari", FormMethod.Post))
-    {
-        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
-
-        <div class="form-group">
-            <label>Komentar</label>
-            <textarea name="tekst_komentara" class="form-control" required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Sačuvaj komentar</button>
-    }
-
-    <hr />
-
-    <h3>Omiljeni prostor</h3>
-
-    @if (Session["id_korisnika"] != null)
-    {
-        int idKorisnika = Convert.ToInt32(Session["id_korisnika"]);
-        bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
-
-        if (!vecJeOmiljeni)
-        {
-            using (Html.BeginForm("Dodaj", "OmiljeniProstori", FormMethod.Post))
-            {
-                <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
-                <button type="submit" class="btn btn-success">Dodaj u omiljene</button>
             }
         }
         else
         {
-            using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
-            {
-                <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
-                <button type="submit" class="btn btn-warning">Ukloni iz omiljenih</button>
-            }
+            <p>Nema komentara za ovaj prostor.</p>
         }
-    }
-    else
-    {
-        <p>
-            @Html.ActionLink("Prijavite se da dodate u omiljene", "Login", "Korisnici", null, new { @class = "btn btn-default" })
-        </p>
-    }
+
+    <div class="details-form-box">
+        <h4>Dodaj komentar</h4>
+
+        @using (Html.BeginForm("Create", "Komentari", FormMethod.Post))
+        {
+            <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+
+            <div class="form-group">
+                <label>Komentar</label>
+                <textarea name="tekst_komentara" class="form-control comment-textarea" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sačuvaj komentar</button>
+        }
+    </div>
+    </div>
+
+    <div class="details-sidebar">
+        <div class="sidebar-card">
+            <h3>Rezervacija</h3>
+
+            <p>
+                Sviđa vam se ovaj prostor? Pošaljite zahtjev za rezervaciju i pratite status u aplikaciji.
+            </p>
+
+            @Html.ActionLink("Zakaži prostor", "Create", "Rezervacije", new { id_prostora = Model.id_prostora }, new { @class = "btn btn-dark-full" })
+
+            <br />
+
+            @if (Session["id_korisnika"] != null)
+            {
+                int idKorisnika = Convert.ToInt32(Session["id_korisnika"]);
+                bool vecJeOmiljeni = Model.OmiljeniProstors.Any(o => o.id_korisnika == idKorisnika);
+
+                if (!vecJeOmiljeni)
+                {
+                    using (Html.BeginForm("Dodaj", "OmiljeniProstori", FormMethod.Post))
+                    {
+                        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+                        <button type="submit" class="btn btn-outline-full">Dodaj u omiljene</button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
+                    {
+                        <input type="hidden" name="id_prostora" value="@Model.id_prostora" />
+                        <button type="submit" class="btn btn-outline-full">Ukloni iz omiljenih</button>
+                    }
+                }
+            }
+            else
+            {
+                @Html.ActionLink("Prijavite se za omiljene", "Login", "Korisnici", null, new { @class = "btn btn-outline-full" })
+            }
+
+            <br />
+
+            @Html.ActionLink("Nazad na listu", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
 </div>
-
-<hr />
-
-<p>
-    @Html.ActionLink("Zakaži prostor", "Create", "Rezervacije", new { id_prostora = Model.id_prostora }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Nazad na listu", "Index", null, new { @class = "btn btn-default" })
-</p>

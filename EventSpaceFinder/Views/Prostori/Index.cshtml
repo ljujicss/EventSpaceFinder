@@ -5,96 +5,71 @@
     ViewBag.Title = "Prostori";
 }
 
-<h2>Prostori</h2>
+<div class="page-header-section">
+    <p class="section-small">PREGLED PROSTORA</p>
+    <h2>Pronađite prostor za svoju proslavu</h2>
+    <p>Pretražite restorane, hotele, vile i sale za svadbe, rođendane, mature i druge događaje.</p>
+</div>
 
-@using (Html.BeginForm("Index", "Prostori", FormMethod.Get))
-{
-    <div class="form-group">
-        <label>Brza pretraga</label>
-        <div class="input-group">
+<div class="search-section">
+    @using (Html.BeginForm("Index", "Prostori", FormMethod.Get))
+    {
+        <div class="search-box-simple">
             <input type="text" name="search" class="form-control" placeholder="Pretraži po nazivu, gradu, adresi..." value="@ViewBag.Search" />
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary">Pretraži</button>
-            </span>
+            <button type="submit" class="btn btn-primary">Pretraži</button>
         </div>
-    </div>
-}
+    }
+</div>
 
 @if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
 {
-    <p>
+    <div class="admin-add-button">
         @Html.ActionLink("Dodaj novi prostor", "Create", null, new { @class = "btn btn-success" })
-    </p>
+    </div>
 }
 
-<table class="table">
-    <tr>
-        <th>Slika</th>
-        <th>Naziv</th>
-        <th>Opis</th>
-        <th>Adresa</th>
-        <th>Kapacitet</th>
-        <th>Osnovna cijena</th>
-        <th>Tip prostora</th>
-        <th>Grad</th>
-        <th></th>
-    </tr>
-
+<div class="venues-grid">
     @foreach (var item in Model)
     {
         var glavnaSlika = item.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
 
-
-
-        <tr>
-            <td>
+        <div class="venue-card">
+            <a href="@Url.Action("Details", "Prostori", new { id = item.id_prostora })" class="venue-image-link">
                 @if (glavnaSlika != null)
                 {
-                    <img src="@glavnaSlika.putanja_slike" style="width:120px; height:80px; object-fit:cover;" />
+                    <img src="@glavnaSlika.putanja_slike" alt="@item.naziv" />
                 }
                 else
                 {
-                    <span>Nema slike</span>
+                    <div class="no-image">Nema slike</div>
                 }
-            </td>
+            </a>
+            <div class="venue-card-body">
+                <h3>@item.naziv</h3>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.naziv)
-            </td>
+                <p class="venue-location">
+                    @item.Grad.naziv_grada
+                </p>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.opis)
-            </td>
+                <p class="venue-description">
+                    @item.opis
+                </p>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.adresa)
-            </td>
+                <div class="venue-info">
+                    <span>Kapacitet: @item.kapacitet</span>
+                    <span>Cijena: @item.osnovna_cijena €</span>
+                </div>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.kapacitet)
-            </td>
+                <div class="venue-actions">
+                    @Html.ActionLink("Detalji", "Details", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
 
-            <td>
-                @Html.DisplayFor(modelItem => item.osnovna_cijena)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.tip_prostora)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Grad.naziv_grada)
-            </td>
-
-            <td>
-                @Html.ActionLink("Detalji", "Details", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
-
-                @if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
-                {
-                    @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_prostora }, new { @class = "btn btn-warning btn-sm" })
-                    @Html.ActionLink("Obriši", "Delete", new { id = item.id_prostora }, new { @class = "btn btn-danger btn-sm" })
-                }
-            </td>
-        </tr>
+                    @if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
+                    {
+                        @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_prostora }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Obriši", "Delete", new { id = item.id_prostora }, new { @class = "btn btn-danger btn-sm" })
+                    }
+                </div>
+            </div>
+        </div>
     }
-</table>
+</div>
