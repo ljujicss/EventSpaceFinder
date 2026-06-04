@@ -133,7 +133,7 @@
     <Compile Include="Controllers\KomentariController.cs" />
     <Compile Include="Controllers\KorisniciController.cs" />
     <Compile Include="Controllers\OcjeneController.cs" />
-    <Compile Include="Controllers\OmiljeniProstorController.cs" />
+    <Compile Include="Controllers\OmiljeniProstoriController.cs" />
     <Compile Include="Controllers\PaketiController.cs" />
     <Compile Include="Controllers\PreporukaController.cs" />
     <Compile Include="Controllers\ProstoriController.cs" />
@@ -271,7 +271,7 @@
     <Content Include="Views\Prostori\DetaljnaPretraga.cshtml" />
     <Content Include="Views\Prostori\RezultatiPretrage.cshtml" />
     <Content Include="Views\Rezervacije\Create.cshtml" />
-    <Content Include="Views\OmiljeniProstor\MojOmiljeni.cshtml" />
+    <Content Include="Views\OmiljeniProstori\MojiOmiljeni.cshtml" />
     <Content Include="Views\Rezervacije\MojeRezervacije.cshtml" />
     <Content Include="Views\Rezervacije\SveRezervacije.cshtml" />
     <Content Include="Views\Korisnici\Register.cshtml" />

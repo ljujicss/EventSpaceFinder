@@ -67,7 +67,7 @@ namespace EventSpaceFinder.Controllers
 
             var omiljeni = db.OmiljeniProstors.Where(o => o.id_korisnika == id_korisnika).ToList();
 
-            return View(omiljeni);
+            return View("~/Views/OmiljeniProstori/MojiOmiljeni.cshtml", omiljeni);
         }
 
         protected override void Dispose(bool disposing)

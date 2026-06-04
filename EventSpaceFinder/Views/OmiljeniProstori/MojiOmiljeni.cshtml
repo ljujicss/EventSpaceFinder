@@ -1,0 +1,81 @@
+﻿@model IEnumerable<EventSpaceFinder.OmiljeniProstor>
+@using System.Linq
+
+@{
+    ViewBag.Title = "Moji omiljeni prostori";
+}
+
+<div class="favorites-page">
+    <div class="favorites-header">
+        <p class="section-small">SAČUVANI PROSTORI</p>
+
+        <h2>Moji omiljeni prostori</h2>
+
+        <p>
+            Ovdje se nalaze prostori koje ste sačuvali dok planirate svoju proslavu.
+        </p>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="venues-grid">
+            @foreach (var item in Model)
+            {
+                var glavnaSlika = item.Prostor.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
+
+                <div class="venue-card">
+                    <a href="@Url.Action("Details", "Prostori", new { id = item.id_prostora })" class="venue-image-link">
+                        @if (glavnaSlika != null)
+                        {
+                            <img src="@glavnaSlika.putanja_slike" alt="@item.Prostor.naziv" />
+                        }
+                        else
+                        {
+                            <div class="no-image">Nema slike</div>
+                        }
+                    </a>
+
+                    <div class="venue-card-body">
+                        <h3>@item.Prostor.naziv</h3>
+
+                        <p class="venue-location">
+                            @item.Prostor.Grad.naziv_grada
+                        </p>
+
+                        <p class="venue-description">
+                            @item.Prostor.opis
+                        </p>
+
+                        <div class="venue-info">
+                            <span>Kapacitet: @item.Prostor.kapacitet</span>
+                            <span>Cijena: @item.Prostor.osnovna_cijena €</span>
+                        </div>
+
+                        <p class="favorite-date">
+                            Dodato: @item.datum_dodavanja.ToString("dd.MM.yyyy")
+                        </p>
+
+                        <div class="venue-actions">
+                            @Html.ActionLink("Detalji", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
+
+                            @using (Html.BeginForm("Ukloni", "OmiljeniProstori", FormMethod.Post))
+                            {
+                                <input type="hidden" name="id_prostora" value="@item.id_prostora" />
+                                <button type="submit" class="btn btn-delete-soft btn-sm">Ukloni</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-message-box">
+            <h3>Nemate omiljenih prostora.</h3>
+            <p>Kada pronađete prostor koji vam se sviđa, možete ga sačuvati u omiljene.</p>
+
+            @Html.ActionLink("Pogledaj prostore", "Index", "Prostori", null, new { @class = "btn btn-dark-full" })
+        </div>
+    }
+</div>

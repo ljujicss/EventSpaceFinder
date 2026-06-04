@@ -4,40 +4,63 @@
     ViewBag.Title = "Moje rezervacije";
 }
 
-<h2>Moje rezervacije</h2>
+<div class="reservations-page">
+    <div class="reservations-header">
+        <p class="section-small">MOJI DOGAĐAJI</p>
 
-@if (Model != null && Model.Any())
-{
-    <table class="table table-bordered table-striped">
-        <tr>
-            <th>Prostor</th>
-            <th>Paket</th>
-            <th>Datum događaja</th>
-            <th>Broj gostiju</th>
-            <th>Ukupna cijena</th>
-            <th>Status</th>
-            <th>Napomena</th>
-        </tr>
+        <h2>Moje rezervacije</h2>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Prostor.naziv</td>
-                <td>@item.Paket.naziv_paketa</td>
-                <td>@item.datum_dogadjaja.ToString("dd.MM.yyyy")</td>
-                <td>@item.broj_gostiju</td>
-                <td>@item.ukupna_cijena</td>
-                <td>@item.StatusRezervacije.naziv_statusa</td>
-                <td>@item.napomena</td>
-            </tr>
-        }
-    </table>
-}
-else
-{
-    <p>Nemate rezervacija.</p>
-}
+        <p>
+            Ovdje možete pratiti sve svoje rezervacije prostora i njihove trenutne statuse.
+        </p>
+    </div>
 
-<p>
-    @Html.ActionLink("Nazad na prostore", "Index", "Prostori", null, new { @class = "btn btn-default" })
-</p>
+    @if (Model != null && Model.Any())
+    {
+        <div class="reservations-grid">
+            @foreach (var item in Model)
+            {
+                <div class="reservation-card">
+                    <h3>@item.Prostor.naziv</h3>
+
+                    <p class="reservation-place">
+                        @item.Prostor.Grad.naziv_grada · @item.Prostor.tip_prostora
+                    </p>
+
+                    <div class="reservation-info">
+                        <p><b>Datum događaja:</b> @item.datum_dogadjaja.ToString("dd.MM.yyyy")</p>
+                        <p><b>Broj gostiju:</b> @item.broj_gostiju</p>
+
+                        @if (item.Paket != null)
+                        {
+                            <p><b>Paket:</b> @item.Paket.naziv_paketa</p>
+                        }
+
+                        <p><b>Ukupna cijena:</b> @item.ukupna_cijena €</p>
+
+                        @if (item.StatusRezervacije != null)
+                        {
+                            <p><b>Status:</b> <span class="reservation-status">@item.StatusRezervacije.naziv_statusa</span></p>
+                        }
+
+                        @if (!String.IsNullOrWhiteSpace(item.napomena))
+                        {
+                            <p><b>Napomena:</b> @item.napomena</p>
+                        }
+                    </div>
+
+                    @Html.ActionLink("Detalji prostora", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-dark-full" })
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-message-box">
+            <h3>Nemate rezervacija.</h3>
+            <p>Kada rezervišete prostor, rezervacija će se prikazati ovdje.</p>
+
+            @Html.ActionLink("Pogledaj prostore", "Index", "Prostori", null, new { @class = "btn btn-dark-full" })
+        </div>
+    }
+</div>
