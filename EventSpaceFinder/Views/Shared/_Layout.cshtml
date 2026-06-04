@@ -3,53 +3,50 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - ĐeSlavimo</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Prostori", "Index", "Prostori", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Detaljna pretraga", "DetaljnaPretraga", "Prostori", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Preporuka prostora", "Index", "Preporuka", new { area = "" }, new { @class = "nav-link" })</li>
+    <nav class="custom-navbar">
+        <div class="custom-navbar-brand">
+            @Html.ActionLink("ĐeSlavimo", "Index", "Home")
+        </div>
 
-                    @if (Session["id_korisnika"] != null)
-                    {
-                        <li>@Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Omiljeni prostori", "MojiOmiljeni", "OmiljeniProstori", new { area = "" }, new { @class = "nav-link" })</li>
+        <div class="custom-navbar-links">
+            @Html.ActionLink("Početna", "Index", "Home")
+            @Html.ActionLink("Prostori", "Index", "Prostori")
+            @Html.ActionLink("Detaljna pretraga", "DetaljnaPretraga", "Prostori")
+            @Html.ActionLink("Preporuka prostora", "Index", "Preporuka")
 
-                        if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
-                        {
-                            <li>@Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Admin paketi", "Index", "Paketi", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Admin komentari", "AdminKomentari", "Komentari", new { area = "" }, new { @class = "nav-link" })</li>
-                        }
-                        <li class="nav-link">Korisnik: @Session["ime"]</li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Login", "Login", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Registracija", "Register", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                </ul>
-            </div>
+            @if (Session["id_korisnika"] != null)
+            {
+                @Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije")
+                @Html.ActionLink("Omiljeni", "MojiOmiljeni", "OmiljeniProstori")
+
+                if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
+                {
+                    @Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije")
+                    @Html.ActionLink("Admin paketi", "Index", "Paketi")
+                    @Html.ActionLink("Admin komentari", "AdminKomentari", "Komentari")
+                }
+
+                @Html.ActionLink("Odjava", "Logout", "Korisnici")
+            }
+            else
+            {
+                @Html.ActionLink("Prijava", "Login", "Korisnici", null, new { @class = "login-menu-link" })
+                @Html.ActionLink("Registracija", "Register", "Korisnici")
+            }
         </div>
     </nav>
-    <div class="container body-content">
+
+    <div class="body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+
+        <footer class="footer">
+            <p>&copy; @DateTime.Now.Year - ĐeSlavimo</p>
         </footer>
     </div>
 

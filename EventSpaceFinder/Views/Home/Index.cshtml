@@ -1,33 +1,126 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Početna";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<div class="hero">
+    <div class="hero-content">
+        <p class="hero-small">Sva mjesta za jedno</p>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        <h1>ĐE SLAVIMO?</h1>
+
+        <h2>
+            Kreiraj uspomene na
+            <span>savršenom mjestu</span>
+        </h2>
+
+        <p class="hero-text">
+            Od romantičnih vjenčanja pod svijećama do urbanih proslava iznad grada —
+            pronađite i rezervišite prostor dostojan vašeg trenutka.
+        </p>
+
+        <div class="hero-search">
+            @using (Html.BeginForm("Index", "Prostori", FormMethod.Get))
+            {
+                <div class="search-field">
+                    <label>Lokacija</label>
+                    <input type="text" name="search" placeholder="Grad ili prostor" />
+                </div>
+
+                <div class="search-field">
+                    <label>Datum</label>
+                    <input type="date" name="datum" />
+                </div>
+
+                <div class="search-field">
+                    <label>Gosti</label>
+                    <input type="number" name="broj_gostiju" placeholder="Broj gostiju" />
+                </div>
+
+                <button type="submit">Pretraži</button>
+            }
+        </div>
+
+        <div class="hero-buttons">
+            @Html.ActionLink("Pogledaj prostore", "Index", "Prostori", null, new { @class = "btn btn-gold" })
+            @Html.ActionLink("Preporuka prostora", "Index", "Preporuka", null, new { @class = "btn btn-light-outline" })
+        </div>
     </div>
-</main>
+</div>
+
+<div class="home-section">
+    <p class="section-small">Za svaku priliku</p>
+
+    <h2>Prostor za svaki poseban trenutak</h2>
+
+    <div class="category-row">
+        <div class="category-card">
+            <h3>Svadbe</h3>
+            <p>Elegantni prostori za vjenčanja i svečane proslave.</p>
+        </div>
+
+        <div class="category-card">
+            <h3>Rođendani</h3>
+            <p>Restorani, vile i sale za male i velike rođendane.</p>
+        </div>
+
+        <div class="category-card">
+            <h3>Mature</h3>
+            <p>Prostori za maturske i apsolventske večeri.</p>
+        </div>
+
+        <div class="category-card">
+            <h3>Poslovni događaji</h3>
+            <p>Konferencije, kokteli i poslovne večere.</p>
+        </div>
+    </div>
+</div>
+
+<div class="steps-section">
+    <div class="steps-left">
+        <p class="section-small">Započnite planiranje</p>
+
+        <h2>Recite nam nešto o vašoj proslavi</h2>
+
+        <p>
+            Unesite osnovne podatke, a ĐeSlavimo će vam pomoći da pronađete prostor
+            koji odgovara vašem događaju, broju gostiju, budžetu i datumu.
+        </p>
+
+        <div class="step">
+            <span>01</span>
+            <div>
+                <h4>Odaberite tip događaja</h4>
+                <p>Svadba, rođendan, matura, krštenje ili poslovni događaj.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <span>02</span>
+            <div>
+                <h4>Pronađite prostor</h4>
+                <p>Pretražite prostore ili koristite preporuku najboljeg prostora.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <span>03</span>
+            <div>
+                <h4>Rezervišite termin</h4>
+                <p>Pošaljite zahtjev i pratite status rezervacije.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="steps-right">
+        <div class="info-card">
+            <h3>Pronađite prostor po mjeri</h3>
+            <p>
+                Koristite preporuku prostora i pronađite najbolju opciju prema gradu,
+                broju gostiju, budžetu i datumu.
+            </p>
+
+            @Html.ActionLink("Preporuka prostora", "Index", "Preporuka", null, new { @class = "btn btn-dark-full" })
+            @Html.ActionLink("Pogledaj sve prostore", "Index", "Prostori", null, new { @class = "btn btn-outline-full" })
+        </div>
+    </div>
+</div>
