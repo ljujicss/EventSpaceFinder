@@ -22,14 +22,16 @@
 
             @if (Session["id_korisnika"] != null)
             {
-                @Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije")
-                @Html.ActionLink("Omiljeni", "MojiOmiljeni", "OmiljeniProstori")
-
                 if (Session["uloga"] != null && Session["uloga"].ToString() == "Admin")
                 {
                     @Html.ActionLink("Admin rezervacije", "SveRezervacije", "Rezervacije")
                     @Html.ActionLink("Admin paketi", "Index", "Paketi")
                     @Html.ActionLink("Admin komentari", "AdminKomentari", "Komentari")
+                }
+                else
+                {
+                    @Html.ActionLink("Moje rezervacije", "MojeRezervacije", "Rezervacije")
+                    @Html.ActionLink("Omiljeni", "MojiOmiljeni", "OmiljeniProstori")
                 }
 
                 @Html.ActionLink("Odjava", "Logout", "Korisnici")

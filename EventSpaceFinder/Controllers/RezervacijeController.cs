@@ -26,6 +26,7 @@ namespace EventSpaceFinder.Controllers
         }
 
         [HttpPost]
+       
         public ActionResult Create(int id_prostora, int id_paketa, DateTime datum_dogadjaja, int broj_gostiju, string napomena)
         {
             if (Session["id_korisnika"] == null)
@@ -34,6 +35,21 @@ namespace EventSpaceFinder.Controllers
             }
 
             int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
+
+            StatusRezervacije otkazanaStatus = db.StatusRezervacijes.FirstOrDefault(s => s.naziv_statusa == "Otkazana");
+
+            Rezervacija postojecaRezervacija = db.Rezervacijas.FirstOrDefault(r =>
+                r.id_korisnika == id_korisnika &&
+                r.id_prostora == id_prostora &&
+                r.datum_dogadjaja == datum_dogadjaja &&
+                (otkazanaStatus == null || r.id_statusa != otkazanaStatus.id_statusa)
+            );
+
+            if (postojecaRezervacija != null)
+            {
+                TempData["Poruka"] = "Već imate rezervaciju za ovaj prostor na izabrani datum.";
+                return RedirectToAction("MojeRezervacije");
+            }
 
             db.Database.ExecuteSqlCommand(
                 "EXEC sp_DodajRezervaciju @id_korisnika, @id_prostora, @id_paketa, @datum_dogadjaja, @broj_gostiju, @napomena",
@@ -100,6 +116,40 @@ namespace EventSpaceFinder.Controllers
             db.SaveChanges();
 
             return RedirectToAction("SveRezervacije");
+        }
+
+        [HttpPost]
+        public ActionResult Otkazi(int id_rezervacije)
+        {
+            if (Session["id_korisnika"] == null)
+            {
+                return RedirectToAction("Login", "Korisnici");
+            }
+
+            int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
+
+            Rezervacija rezervacija = db.Rezervacijas.FirstOrDefault(r => r.id_rezervacije == id_rezervacije && r.id_korisnika == id_korisnika);
+
+            if (rezervacija == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (rezervacija.datum_dogadjaja <= DateTime.Now.AddDays(10))
+            {
+                TempData["Poruka"] = "Rezervaciju možete otkazati najkasnije 10 dana prije događaja.";
+                return RedirectToAction("MojeRezervacije");
+            }
+
+            StatusRezervacije status = db.StatusRezervacijes.FirstOrDefault(s => s.naziv_statusa == "Otkazana");
+
+            if (status != null)
+            {
+                rezervacija.id_statusa = status.id_statusa;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("MojeRezervacije");
         }
         protected override void Dispose(bool disposing)
         {

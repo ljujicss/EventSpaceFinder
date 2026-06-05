@@ -15,6 +15,13 @@
         </p>
     </div>
 
+    @if (TempData["Poruka"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["Poruka"]
+        </div>
+    }
+
     @if (Model != null && Model.Any())
     {
         <div class="reservations-grid">
@@ -40,7 +47,10 @@
 
                         @if (item.StatusRezervacije != null)
                         {
-                            <p><b>Status:</b> <span class="reservation-status">@item.StatusRezervacije.naziv_statusa</span></p>
+                            <p>
+                                <b>Status:</b>
+                                <span class="reservation-status">@item.StatusRezervacije.naziv_statusa</span>
+                            </p>
                         }
 
                         @if (!String.IsNullOrWhiteSpace(item.napomena))
@@ -50,6 +60,19 @@
                     </div>
 
                     @Html.ActionLink("Detalji prostora", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-dark-full" })
+
+                    @if (item.StatusRezervacije != null &&
+                         item.StatusRezervacije.naziv_statusa != "Otkazana" &&
+                         item.datum_dogadjaja > DateTime.Now.AddDays(10))
+                    {
+                        using (Html.BeginForm("Otkazi", "Rezervacije", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id_rezervacije" value="@item.id_rezervacije" />
+                            <button type="submit" class="btn btn-delete-soft btn-cancel-reservation">
+                                Otkaži rezervaciju
+                            </button>
+                        }
+                    }
                 </div>
             }
         </div>
