@@ -1,62 +1,77 @@
-﻿
-@model IEnumerable<EventSpaceFinder.Komentar>
+﻿@model IEnumerable<EventSpaceFinder.Komentar>
 
 @{
     ViewBag.Title = "Admin komentari";
 }
 
-<h2>Admin komentari</h2>
+<div class="admin-comments-page">
+    <div class="admin-comments-header">
+        <p class="section-small">ADMIN PANEL</p>
 
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>Korisnik</th>
-        <th>Prostor</th>
-        <th>Komentar</th>
-        <th>Datum</th>
-        <th>Odobren</th>
-        <th>Akcije</th>
-    </tr>
+        <h2>Admin komentari</h2>
 
-    @foreach (var item in Model)
+        <p>
+            Pregled komentara korisnika, odobravanje, sakrivanje i brisanje komentara.
+        </p>
+    </div>
+
+    @if (Model != null && Model.Any())
     {
-        <tr>
-            <td>@item.Korisnik.ime @item.Korisnik.prezime</td>
-            <td>@item.Prostor.naziv</td>
-            <td>@item.tekst_komentara</td>
-            <td>@item.datum_komentara.ToString("dd.MM.yyyy")</td>
-            <td>
-                @if (item.odobren)
-                {
-                    <span class="label label-success">Da</span>
-                }
-                else
-                {
-                    <span class="label label-warning">Ne</span>
-                }
-            </td>
-            <td>
-                @using (Html.BeginForm("PromijeniOdobren", "Komentari", FormMethod.Post))
-                {
-                    <input type="hidden" name="id_komentara" value="@item.id_komentara" />
+        <div class="admin-comments-list">
+            @foreach (var item in Model)
+            {
+                <div class="admin-comment-card">
+                    <div class="admin-comment-main">
+                        <h3>@item.Prostor.naziv</h3>
 
-                    if (item.odobren)
-                    {
-                        <button type="submit" class="btn btn-warning btn-sm">Sakrij</button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="btn btn-success btn-sm">Odobri</button>
-                    }
-                }
+                        <p class="comment-user">
+                            @item.Korisnik.ime @item.Korisnik.prezime · @item.datum_komentara.ToString("dd.MM.yyyy")
+                        </p>
 
-                <br />
+                        <p class="comment-text">
+                            @item.tekst_komentara
+                        </p>
 
-                @using (Html.BeginForm("AdminDelete", "Komentari", FormMethod.Post))
-                {
-                    <input type="hidden" name="id_komentara" value="@item.id_komentara" />
-                    <button type="submit" class="btn btn-danger btn-sm">Obriši</button>
-                }
-            </td>
-        </tr>
+                        @if (item.odobren)
+                        {
+                            <span class="comment-status comment-approved">Odobren</span>
+                        }
+                        else
+                        {
+                            <span class="comment-status comment-hidden">Nije odobren</span>
+                        }
+                    </div>
+
+                    <div class="admin-comment-actions">
+                        @using (Html.BeginForm("PromijeniOdobren", "Komentari", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id_komentara" value="@item.id_komentara" />
+
+                            if (item.odobren)
+                            {
+                                <button type="submit" class="btn btn-outline-full">Sakrij komentar</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-dark-full">Odobri komentar</button>
+                            }
+                        }
+
+                        @using (Html.BeginForm("AdminDelete", "Komentari", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id_komentara" value="@item.id_komentara" />
+                            <button type="submit" class="btn btn-delete-soft admin-delete-button">Obriši komentar</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     }
-</table>
+    else
+    {
+        <div class="empty-message-box">
+            <h3>Nema komentara.</h3>
+            <p>Trenutno nema komentara za prikaz.</p>
+        </div>
+    }
+</div>
