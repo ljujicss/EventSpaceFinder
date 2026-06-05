@@ -1414,3 +1414,133 @@ h1, h2, h3, h4 {
         font-size: 36px;
     }
 }
+
+.admin-packages-page {
+    background-color: #fbf7ef;
+    padding: 80px 8% 80px 8%;
+}
+
+.admin-packages-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+
+    .admin-packages-header h2 {
+        color: #0b2f22;
+        font-size: 48px;
+        margin-bottom: 12px;
+    }
+
+    .admin-packages-header p {
+        color: #5f6b66;
+        line-height: 1.7;
+    }
+
+.packages-add-button {
+    max-width: 300px;
+    margin: 0 auto 35px auto;
+    padding: 0;
+    background-color: transparent;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.package-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+}
+
+.package-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+    .package-card-header h3 {
+        color: #0b2f22;
+        font-size: 32px;
+        margin: 0;
+    }
+
+.package-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.package-active {
+    background-color: #e5efe8;
+    color: #0b2f22;
+}
+
+.package-inactive {
+    background-color: #f3eadc;
+    color: #8b5e34;
+}
+
+.package-place {
+    color: #c99a3d;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.package-description {
+    color: #5f6b66;
+    line-height: 1.7;
+    min-height: 80px;
+}
+
+.package-info {
+    background-color: #f3eadc;
+    padding: 18px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+    .package-info p {
+        color: #5f6b66;
+        margin-bottom: 8px;
+    }
+
+    .package-info b {
+        color: #0b2f22;
+    }
+
+.package-actions .btn {
+    margin-bottom: 10px;
+}
+
+.package-delete-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+    .packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-packages-header h2 {
+        font-size: 36px;
+    }
+}

@@ -1,63 +1,70 @@
 ﻿@model IEnumerable<EventSpaceFinder.Paket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin paketi";
 }
 
-<h2>Index</h2>
+<div class="admin-packages-page">
+    <div class="admin-packages-header">
+        <p class="section-small">ADMIN PANEL</p>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.naziv_paketa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.opis)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cijena)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.broj_sati)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.aktivan)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Prostor.naziv)
-        </th>
-        <th></th>
-    </tr>
+        <h2>Paketi prostora</h2>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.naziv_paketa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.opis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cijena)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.broj_sati)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.aktivan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prostor.naziv)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_paketa }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_paketa }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_paketa })
-        </td>
-    </tr>
-}
+        <p>
+            Pregled i uređivanje paketa koji se nude uz prostore za proslave.
+        </p>
+    </div>
 
-</table>
+    <div class="admin-add-button packages-add-button">
+        @Html.ActionLink("Dodaj novi paket", "Create", null, new { @class = "btn btn-dark-full" })
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="packages-grid">
+            @foreach (var item in Model)
+            {
+                <div class="package-card">
+                    <div class="package-card-header">
+                        <h3>@item.naziv_paketa</h3>
+
+                        @if (item.aktivan)
+                        {
+                            <span class="package-status package-active">Aktivan</span>
+                        }
+                        else
+                        {
+                            <span class="package-status package-inactive">Neaktivan</span>
+                        }
+                    </div>
+
+                    <p class="package-place">
+                        @item.Prostor.naziv
+                    </p>
+
+                    <p class="package-description">
+                        @item.opis
+                    </p>
+
+                    <div class="package-info">
+                        <p><b>Cijena:</b> @item.cijena €</p>
+                        <p><b>Broj sati:</b> @item.broj_sati</p>
+                    </div>
+
+                    <div class="package-actions">
+                        @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_paketa }, new { @class = "btn btn-outline-full" })
+                        @Html.ActionLink("Detalji", "Details", new { id = item.id_paketa }, new { @class = "btn btn-dark-full" })
+                        @Html.ActionLink("Obriši", "Delete", new { id = item.id_paketa }, new { @class = "btn btn-delete-soft package-delete-button" })
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-message-box">
+            <h3>Nema paketa.</h3>
+            <p>Trenutno nema dodatih paketa za prostore.</p>
+        </div>
+    }
+</div>
