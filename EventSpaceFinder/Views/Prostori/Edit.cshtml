@@ -1,95 +1,183 @@
 ﻿@model EventSpaceFinder.Prostor
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Izmijeni prostor";
 }
 
-<h2>Edit</h2>
+<style>
+    .edit-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 20px 80px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Prostor</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id_prostora)
+    .edit-card {
+        background-color: white;
+        width: 100%;
+        max-width: 680px;
+        padding: 40px;
+        border-radius: 14px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.id_grada, "id_grada", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_grada", null, htmlAttributes: new { @class = "form-control" })
+        .edit-card h2 {
+            color: #0b2f22;
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+    .edit-text {
+        color: #5f6b66;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .edit-card label {
+        color: #0b2f22;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .edit-card .form-group {
+        margin-bottom: 18px;
+    }
+
+    .edit-card .form-control {
+        width: 100%;
+        height: 45px;
+        border: 1px solid #d8c9ad;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+        .edit-card .form-control:focus {
+            border-color: #c99a3d;
+            box-shadow: none;
+        }
+
+    .edit-textarea {
+        min-height: 120px !important;
+        resize: vertical;
+    }
+
+    .edit-checkbox {
+        background-color: #f3eadc;
+        padding: 14px;
+        border-radius: 8px;
+    }
+
+        .edit-checkbox input {
+            margin-right: 8px;
+        }
+
+    .btn-save-edit {
+        background-color: #0b2f22;
+        color: white !important;
+        width: 100%;
+        padding: 13px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-top: 10px;
+        border: none;
+    }
+
+        .btn-save-edit:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+        }
+
+    .edit-back-link {
+        text-align: center;
+        margin-top: 18px;
+    }
+
+        .edit-back-link a {
+            color: #c99a3d;
+            font-weight: bold;
+        }
+
+            .edit-back-link a:hover {
+                color: #0b2f22;
+                text-decoration: none;
+            }
+</style>
+
+<div class="edit-page">
+    <div class="edit-card">
+        <p class="section-small">ADMIN PANEL</p>
+
+        <h2>Izmijeni prostor</h2>
+
+        <p class="edit-text">
+            Ažurirajte podatke o prostoru koji je prikazan korisnicima.
+        </p>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.id_prostora)
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label>Grad</label>
+                @Html.DropDownList("id_grada", null, "Izaberite grad", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.id_grada, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.naziv, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Naziv prostora</label>
                 @Html.EditorFor(model => model.naziv, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.naziv, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.opis, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.opis, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                <label>Opis</label>
+                @Html.TextAreaFor(model => model.opis, new { @class = "form-control edit-textarea" })
                 @Html.ValidationMessageFor(model => model.opis, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.adresa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Adresa</label>
                 @Html.EditorFor(model => model.adresa, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.adresa, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.kapacitet, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Kapacitet</label>
                 @Html.EditorFor(model => model.kapacitet, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.kapacitet, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.osnovna_cijena, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Osnovna cijena</label>
                 @Html.EditorFor(model => model.osnovna_cijena, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.osnovna_cijena, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.tip_prostora, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Tip prostora</label>
                 @Html.EditorFor(model => model.tip_prostora, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.tip_prostora, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.aktivan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
+            <div class="form-group edit-checkbox">
+                <label>
                     @Html.EditorFor(model => model.aktivan)
-                    @Html.ValidationMessageFor(model => model.aktivan, "", new { @class = "text-danger" })
-                </div>
+                    Aktivan
+                </label>
+                @Html.ValidationMessageFor(model => model.aktivan, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <button type="submit" class="btn-save-edit">Sačuvaj izmjene</button>
+
+            <div class="edit-back-link">
+                @Html.ActionLink("Nazad na listu", "Index")
             </div>
-        </div>
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

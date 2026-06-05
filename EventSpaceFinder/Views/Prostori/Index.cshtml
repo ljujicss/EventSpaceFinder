@@ -29,7 +29,7 @@
 }
 
 <div class="venues-grid">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Where(p => p.aktivan == true))
     {
         var glavnaSlika = item.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
 

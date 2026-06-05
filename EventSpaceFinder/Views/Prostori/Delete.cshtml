@@ -1,88 +1,185 @@
 ﻿@model EventSpaceFinder.Prostor
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Obriši prostor";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Prostor</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.naziv)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.naziv)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.opis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.opis)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.adresa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.adresa)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.kapacitet)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.kapacitet)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.osnovna_cijena)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.osnovna_cijena)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tip_prostora)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tip_prostora)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.aktivan)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.aktivan)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Grad.naziv_grada)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Grad.naziv_grada)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<style>
+    .delete-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 20px 80px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
+
+    .delete-card {
+        background-color: white;
+        width: 100%;
+        max-width: 720px;
+        padding: 40px;
+        border-radius: 14px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+        .delete-card h2 {
+            color: #0b2f22;
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+    .delete-warning {
+        background-color: #f3eadc;
+        padding: 18px;
+        border-radius: 10px;
+        color: #8b5e34;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+    .delete-info {
+        margin-bottom: 30px;
+    }
+
+    .delete-row {
+        display: flex;
+        border-bottom: 1px solid #eee3d4;
+        padding: 12px 0;
+        gap: 20px;
+    }
+
+    .delete-label {
+        width: 180px;
+        color: #0b2f22;
+        font-weight: bold;
+    }
+
+    .delete-value {
+        flex: 1;
+        color: #5f6b66;
+    }
+
+    .delete-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn-delete-confirm {
+        background-color: #8b5e34;
+        color: white !important;
+        border: none;
+        padding: 13px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+        .btn-delete-confirm:hover {
+            background-color: #0b2f22;
+            color: white !important;
+        }
+
+    .btn-back-delete {
+        background-color: transparent;
+        border: 1px solid #0b2f22;
+        color: #0b2f22 !important;
+        padding: 13px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .btn-back-delete:hover {
+            background-color: #0b2f22;
+            color: white !important;
+            text-decoration: none;
+        }
+
+    @@media (max-width: 650px) {
+        .delete-row {
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .delete-label {
+            width: 100%;
+        }
+
+        .delete-actions {
+            flex-direction: column;
+        }
+
+        .btn-delete-confirm,
+        .btn-back-delete {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="delete-page">
+    <div class="delete-card">
+        <p class="section-small">ADMIN PANEL</p>
+
+        <h2>Obriši prostor</h2>
+
+        <div class="delete-warning">
+            Da li ste sigurni da želite da obrišete ovaj prostor?
+        </div>
+
+        <div class="delete-info">
+            <div class="delete-row">
+                <div class="delete-label">Naziv</div>
+                <div class="delete-value">@Model.naziv</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Opis</div>
+                <div class="delete-value">@Model.opis</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Adresa</div>
+                <div class="delete-value">@Model.adresa</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Kapacitet</div>
+                <div class="delete-value">@Model.kapacitet gostiju</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Osnovna cijena</div>
+                <div class="delete-value">@Model.osnovna_cijena €</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Tip prostora</div>
+                <div class="delete-value">@Model.tip_prostora</div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Aktivan</div>
+                <div class="delete-value">
+                    @(Model.aktivan ? "Da" : "Ne")
+                </div>
+            </div>
+
+            <div class="delete-row">
+                <div class="delete-label">Grad</div>
+                <div class="delete-value">@Model.Grad.naziv_grada</div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("DeleteConfirmed", "Prostori", new { id = Model.id_prostora }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="delete-actions">
+                <input type="submit" value="Obriši prostor" class="btn-delete-confirm" />
+                @Html.ActionLink("Nazad na listu", "Index", null, new { @class = "btn-back-delete" })
+            </div>
+        }
+    </div>
 </div>
