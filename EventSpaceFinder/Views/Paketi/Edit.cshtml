@@ -1,73 +1,170 @@
 ﻿@model EventSpaceFinder.Paket
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Paket</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id_paketa)
+@{
+    ViewBag.Title = "Izmijeni paket";
+}
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.id_prostora, "id_prostora", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_prostora", null, htmlAttributes: new { @class = "form-control" })
+<style>
+    .package-form-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 20px 80px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .package-form-card {
+        background-color: white;
+        width: 100%;
+        max-width: 650px;
+        padding: 40px;
+        border-radius: 14px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+        .package-form-card h2 {
+            color: #0b2f22;
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+    .package-form-text {
+        color: #5f6b66;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .package-form-card label {
+        color: #0b2f22;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .package-form-card .form-group {
+        margin-bottom: 18px;
+    }
+
+    .package-form-card .form-control {
+        width: 100%;
+        height: 45px;
+        border: 1px solid #d8c9ad;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+        .package-form-card .form-control:focus {
+            border-color: #c99a3d;
+            box-shadow: none;
+        }
+
+    .package-textarea {
+        min-height: 120px !important;
+        resize: vertical;
+    }
+
+    .package-checkbox {
+        background-color: #f3eadc;
+        padding: 14px;
+        border-radius: 8px;
+    }
+
+        .package-checkbox input {
+            margin-right: 8px;
+        }
+
+    .btn-save-package {
+        background-color: #0b2f22;
+        color: white !important;
+        width: 100%;
+        padding: 13px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-top: 10px;
+        border: none;
+    }
+
+        .btn-save-package:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+        }
+
+    .package-back-link {
+        text-align: center;
+        margin-top: 18px;
+    }
+
+        .package-back-link a {
+            color: #c99a3d;
+            font-weight: bold;
+        }
+
+            .package-back-link a:hover {
+                color: #0b2f22;
+                text-decoration: none;
+            }
+</style>
+
+<div class="package-form-page">
+    <div class="package-form-card">
+        <p class="section-small">ADMIN PANEL</p>
+
+        <h2>Izmijeni paket</h2>
+
+        <p class="package-form-text">
+            Ažurirajte podatke o paketu koji korisnici mogu izabrati prilikom rezervacije.
+        </p>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.id_paketa)
+
+            <div class="form-group">
+                <label>Prostor</label>
+                @Html.DropDownList("id_prostora", null, "Izaberite prostor", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.id_prostora, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.naziv_paketa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Naziv paketa</label>
                 @Html.EditorFor(model => model.naziv_paketa, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.naziv_paketa, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.opis, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.opis, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                <label>Opis</label>
+                @Html.TextAreaFor(model => model.opis, new { @class = "form-control package-textarea" })
                 @Html.ValidationMessageFor(model => model.opis, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.cijena, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Cijena</label>
                 @Html.EditorFor(model => model.cijena, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.cijena, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.broj_sati, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                <label>Broj sati</label>
                 @Html.EditorFor(model => model.broj_sati, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.broj_sati, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.aktivan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
+            <div class="form-group package-checkbox">
+                <label>
                     @Html.EditorFor(model => model.aktivan)
-                    @Html.ValidationMessageFor(model => model.aktivan, "", new { @class = "text-danger" })
-                </div>
+                    Aktivan
+                </label>
+                @Html.ValidationMessageFor(model => model.aktivan, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <button type="submit" class="btn-save-package">Sačuvaj izmjene</button>
+
+            <div class="package-back-link">
+                @Html.ActionLink("Nazad na listu", "Index")
             </div>
-        </div>
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

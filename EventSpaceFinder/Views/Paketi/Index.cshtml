@@ -4,8 +4,189 @@
     ViewBag.Title = "Admin paketi";
 }
 
-<div class="admin-packages-page">
-    <div class="admin-packages-header">
+<style>
+    .packages-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 8% 80px 8%;
+    }
+
+    .packages-header {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 35px auto;
+    }
+
+        .packages-header h2 {
+            color: #0b2f22;
+            font-size: 46px;
+            margin-bottom: 10px;
+        }
+
+        .packages-header p {
+            color: #5f6b66;
+            line-height: 1.7;
+        }
+
+    .packages-add {
+        max-width: 230px;
+        margin: 0 auto 35px auto;
+    }
+
+    .btn-add-package {
+        display: block;
+        background-color: #0b2f22;
+        color: white !important;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .btn-add-package:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+            text-decoration: none;
+        }
+
+    .packages-grid-small {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .package-small-card {
+        background-color: white;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+    }
+
+        .package-small-card h3 {
+            color: #0b2f22;
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+    .package-space {
+        color: #c99a3d;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .package-description {
+        color: #5f6b66;
+        line-height: 1.6;
+        min-height: 70px;
+        margin-bottom: 15px;
+    }
+
+    .package-info {
+        background-color: #f3eadc;
+        padding: 13px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+        .package-info p {
+            margin: 4px 0;
+            color: #5f6b66;
+        }
+
+        .package-info b {
+            color: #0b2f22;
+        }
+
+    .package-status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .package-active {
+        background-color: #e5efe8;
+        color: #0b2f22;
+    }
+
+    .package-inactive {
+        background-color: #f3eadc;
+        color: #8b5e34;
+    }
+
+    .package-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .package-actions a {
+            text-align: center;
+            padding: 9px;
+            border-radius: 7px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+    .btn-package-edit {
+        border: 1px solid #0b2f22;
+        color: #0b2f22 !important;
+        background-color: white;
+    }
+
+        .btn-package-edit:hover {
+            background-color: #0b2f22;
+            color: white !important;
+            text-decoration: none;
+        }
+
+    .btn-package-details {
+        background-color: #0b2f22;
+        color: white !important;
+    }
+
+        .btn-package-details:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+            text-decoration: none;
+        }
+
+    .btn-package-delete {
+        background-color: #8b5e34;
+        color: white !important;
+    }
+
+        .btn-package-delete:hover {
+            background-color: #0b2f22;
+            color: white !important;
+            text-decoration: none;
+        }
+
+    @@media (max-width: 1100px) {
+        .packages-grid-small {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 800px) {
+        .packages-grid-small {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 550px) {
+        .packages-grid-small {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="packages-page">
+    <div class="packages-header">
         <p class="section-small">ADMIN PANEL</p>
 
         <h2>Paketi prostora</h2>
@@ -15,32 +196,30 @@
         </p>
     </div>
 
-    <div class="admin-add-button packages-add-button">
-        @Html.ActionLink("Dodaj novi paket", "Create", null, new { @class = "btn btn-dark-full" })
+    <div class="packages-add">
+        @Html.ActionLink("Dodaj novi paket", "Create", null, new { @class = "btn-add-package" })
     </div>
 
     @if (Model != null && Model.Any())
     {
-        <div class="packages-grid">
+        <div class="packages-grid-small">
             @foreach (var item in Model)
             {
-                <div class="package-card">
-                    <div class="package-card-header">
-                        <h3>@item.naziv_paketa</h3>
+                <div class="package-small-card">
+                    <h3>@item.naziv_paketa</h3>
 
-                        @if (item.aktivan)
-                        {
-                            <span class="package-status package-active">Aktivan</span>
-                        }
-                        else
-                        {
-                            <span class="package-status package-inactive">Neaktivan</span>
-                        }
-                    </div>
-
-                    <p class="package-place">
+                    <p class="package-space">
                         @item.Prostor.naziv
                     </p>
+
+                    @if (item.aktivan)
+                    {
+                        <span class="package-status package-active">Aktivan</span>
+                    }
+                    else
+                    {
+                        <span class="package-status package-inactive">Neaktivan</span>
+                    }
 
                     <p class="package-description">
                         @item.opis
@@ -52,9 +231,8 @@
                     </div>
 
                     <div class="package-actions">
-                        @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_paketa }, new { @class = "btn btn-outline-full" })
-                        @Html.ActionLink("Detalji", "Details", new { id = item.id_paketa }, new { @class = "btn btn-dark-full" })
-                        @Html.ActionLink("Obriši", "Delete", new { id = item.id_paketa }, new { @class = "btn btn-delete-soft package-delete-button" })
+                        @Html.ActionLink("Izmijeni", "Edit", new { id = item.id_paketa }, new { @class = "btn-package-edit" })
+                        @Html.ActionLink("Deaktiviraj", "Delete", new { id = item.id_paketa }, new { @class = "btn-package-delete" })
                     </div>
                 </div>
             }

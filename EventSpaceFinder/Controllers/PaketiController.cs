@@ -14,7 +14,9 @@ namespace EventSpaceFinder.Controllers
                 return RedirectToAction("Login", "Korisnici");
             }
 
-            var paketi = db.Pakets.ToList();
+            var paketi = db.Pakets
+            .Where(p => p.aktivan == true)
+            .ToList();
 
             return View(paketi);
         }
