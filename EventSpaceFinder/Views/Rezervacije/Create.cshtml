@@ -1,6 +1,12 @@
 ﻿@{
     ViewBag.Title = "Zakazivanje prostora";
 }
+@if (TempData["Poruka"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Poruka"]
+    </div>
+}
 
 <div class="reservation-create-page">
     <div class="reservation-create-card">

@@ -2,34 +2,138 @@
     ViewBag.Title = "Detaljna pretraga";
 }
 
-<h2>Detaljna pretraga prostora</h2>
+<style>
+    .advanced-search-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 20px 80px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
 
-@using (Html.BeginForm("DetaljnaPretraga", "Prostori", FormMethod.Post))
-{
-    <div class="form-group">
-        <label>Grad</label>
-        @Html.DropDownList("id_grada", null, "Izaberite grad", new { @class = "form-control" })
+    .advanced-search-card {
+        background-color: white;
+        width: 100%;
+        max-width: 700px;
+        padding: 42px;
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+        .advanced-search-card h2 {
+            color: #0b2f22;
+            font-size: 46px;
+            margin-bottom: 12px;
+        }
+
+    .advanced-search-text {
+        color: #5f6b66;
+        line-height: 1.7;
+        margin-bottom: 28px;
+    }
+
+    .advanced-search-card label {
+        color: #0b2f22;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .advanced-search-card .form-group {
+        margin-bottom: 18px;
+    }
+
+    .advanced-search-card .form-control {
+        width: 100%;
+        height: 46px;
+        border: 1px solid #d8c9ad;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+        .advanced-search-card .form-control:focus {
+            border-color: #c99a3d;
+            box-shadow: none;
+        }
+
+    .advanced-search-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .btn-advanced-search {
+        background-color: #0b2f22;
+        color: white !important;
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+        .btn-advanced-search:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+        }
+
+    @@media (max-width: 700px) {
+        .advanced-search-row {
+            grid-template-columns: 1fr;
+        }
+
+        .advanced-search-card {
+            padding: 30px 22px;
+        }
+
+            .advanced-search-card h2 {
+                font-size: 36px;
+            }
+    }
+</style>
+
+<div class="advanced-search-page">
+    <div class="advanced-search-card">
+        <p class="section-small">DETALJNA PRETRAGA</p>
+
+        <h2>Pronađite prostor po mjeri</h2>
+
+        <p class="advanced-search-text">
+            Izaberite grad, tip događaja, broj gostiju, budžet i datum kako biste pronašli
+            prostore koji najbolje odgovaraju vašoj proslavi.
+        </p>
+
+        @using (Html.BeginForm("DetaljnaPretraga", "Prostori", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Grad</label>
+                @Html.DropDownList("id_grada", null, "Izaberite grad", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Tip događaja</label>
+                @Html.DropDownList("id_tipa_dogadjaja", null, "Izaberite tip događaja", new { @class = "form-control" })
+            </div>
+
+            <div class="advanced-search-row">
+                <div class="form-group">
+                    <label>Broj gostiju</label>
+                    <input type="number" name="broj_gostiju" class="form-control" placeholder="npr. 100" />
+                </div>
+
+                <div class="form-group">
+                    <label>Budžet</label>
+                    <input type="number" name="budzet" class="form-control" step="0.01" placeholder="npr. 3000" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Datum događaja</label>
+                <input type="date" name="datum_dogadjaja" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn-advanced-search">Pretraži prostore</button>
+        }
     </div>
-
-    <div class="form-group">
-        <label>Tip događaja</label>
-        @Html.DropDownList("id_tipa_dogadjaja", null, "Izaberite tip događaja", new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Broj gostiju</label>
-        <input type="number" name="broj_gostiju" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Budžet</label>
-        <input type="number" name="budzet" class="form-control" step="0.01" />
-    </div>
-
-    <div class="form-group">
-        <label>Datum događaja</label>
-        <input type="date" name="datum_dogadjaja" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Pretraži</button>
-}
+</div>

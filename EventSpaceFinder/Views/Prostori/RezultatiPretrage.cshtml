@@ -1,39 +1,255 @@
 ﻿@model IEnumerable<EventSpaceFinder.Prostor>
+@using System.Linq
 
 @{
     ViewBag.Title = "Rezultati pretrage";
 }
 
-<h2>Rezultati pretrage</h2>
-
-<p>
-    @Html.ActionLink("Nova pretraga", "DetaljnaPretraga", null, new { @class = "btn btn-default" })
-</p>
-
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>Naziv</th>
-        <th>Grad</th>
-        <th>Adresa</th>
-        <th>Kapacitet</th>
-        <th>Osnovna cijena</th>
-        <th>Tip prostora</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.naziv</td>
-            <td>@item.Grad.naziv_grada</td>
-            <td>@item.adresa</td>
-            <td>@item.kapacitet</td>
-            <td>@item.osnovna_cijena</td>
-            <td>@item.tip_prostora</td>
-            <td>
-                @Html.ActionLink("Detalji", "Details", new { id = item.id_prostora }, new { @class = "btn btn-info btn-sm" })
-            </td>
-        </tr>
+<style>
+    .search-results-page {
+        min-height: 100vh;
+        background-color: #fbf7ef;
+        padding: 120px 8% 80px 8%;
     }
 
-</table>
+    .search-results-header {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 40px auto;
+    }
+
+        .search-results-header h2 {
+            color: #0b2f22;
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .search-results-header p {
+            color: #5f6b66;
+            line-height: 1.7;
+        }
+
+    .new-search-link {
+        max-width: 220px;
+        margin: 0 auto 40px auto;
+    }
+
+    .btn-new-search {
+        display: block;
+        background-color: #0b2f22;
+        color: white !important;
+        padding: 13px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .btn-new-search:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+            text-decoration: none;
+        }
+
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .result-card {
+        background-color: white;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+    .result-image-link {
+        display: block;
+        height: 230px;
+        overflow: hidden;
+    }
+
+        .result-image-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .result-no-image {
+        height: 230px;
+        background-color: #f3eadc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8b5e34;
+        font-weight: bold;
+    }
+
+    .result-card-body {
+        padding: 24px;
+    }
+
+        .result-card-body h3 {
+            color: #0b2f22;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+    .result-location {
+        color: #c99a3d;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .result-description {
+        color: #5f6b66;
+        line-height: 1.6;
+        min-height: 55px;
+        margin-bottom: 18px;
+    }
+
+    .result-info {
+        background-color: #f3eadc;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+    }
+
+        .result-info p {
+            color: #5f6b66;
+            margin: 5px 0;
+        }
+
+        .result-info b {
+            color: #0b2f22;
+        }
+
+    .btn-result-details {
+        display: block;
+        background-color: #0b2f22;
+        color: white !important;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .btn-result-details:hover {
+            background-color: #c99a3d;
+            color: #0b2f22 !important;
+            text-decoration: none;
+        }
+
+    .empty-results-box {
+        background-color: white;
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 14px;
+        text-align: center;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+        .empty-results-box h3 {
+            color: #0b2f22;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .empty-results-box p {
+            color: #5f6b66;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+    @@media (max-width: 1000px) {
+        .results-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 650px) {
+        .results-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .search-results-header h2 {
+            font-size: 36px;
+        }
+    }
+</style>
+
+<div class="search-results-page">
+    <div class="search-results-header">
+        <p class="section-small">REZULTATI PRETRAGE</p>
+
+        <h2>Prostori koji odgovaraju vašoj pretrazi</h2>
+
+        <p>
+            Pogledajte pronađene prostore i otvorite detalje za više informacija o cijeni,
+            kapacitetu, slikama i rezervaciji.
+        </p>
+    </div>
+
+    <div class="new-search-link">
+        @Html.ActionLink("Nova pretraga", "DetaljnaPretraga", null, new { @class = "btn-new-search" })
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="results-grid">
+            @foreach (var item in Model)
+            {
+                var glavnaSlika = item.SlikaProstoras.FirstOrDefault(s => s.glavna_slika == true);
+
+                <div class="result-card">
+                    <a href="@Url.Action("Details", "Prostori", new { id = item.id_prostora })" class="result-image-link">
+                        @if (glavnaSlika != null)
+                        {
+                            <img src="@glavnaSlika.putanja_slike" alt="@item.naziv" />
+                        }
+                        else
+                        {
+                            <div class="result-no-image">Nema slike</div>
+                        }
+                    </a>
+
+                    <div class="result-card-body">
+                        <h3>@item.naziv</h3>
+
+                        <p class="result-location">
+                            @item.Grad.naziv_grada
+                        </p>
+
+                        <p class="result-description">
+                            @item.tip_prostora
+                        </p>
+
+                        <div class="result-info">
+                            <p><b>Adresa:</b> @item.adresa</p>
+                            <p><b>Kapacitet:</b> @item.kapacitet gostiju</p>
+                            <p><b>Osnovna cijena:</b> @item.osnovna_cijena €</p>
+                        </div>
+
+                        @Html.ActionLink("Pogledaj detalje", "Details", new { id = item.id_prostora }, new { @class = "btn-result-details" })
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-results-box">
+            <h3>Nema pronađenih prostora.</h3>
+            <p>
+                Pokušajte promijeniti grad, budžet, broj gostiju ili tip događaja.
+            </p>
+
+            @Html.ActionLink("Vrati se na pretragu", "DetaljnaPretraga", null, new { @class = "btn-new-search" })
+        </div>
+    }
+</div>

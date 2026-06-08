@@ -26,7 +26,6 @@ namespace EventSpaceFinder.Controllers
         }
 
         [HttpPost]
-       
         public ActionResult Create(int id_prostora, int id_paketa, DateTime datum_dogadjaja, int broj_gostiju, string napomena)
         {
             if (Session["id_korisnika"] == null)
@@ -36,13 +35,33 @@ namespace EventSpaceFinder.Controllers
 
             int id_korisnika = Convert.ToInt32(Session["id_korisnika"]);
 
-            StatusRezervacije otkazanaStatus = db.StatusRezervacijes.FirstOrDefault(s => s.naziv_statusa == "Otkazana");
+            if (datum_dogadjaja <= DateTime.Now)
+            {
+                TempData["Poruka"] = "Datum događaja mora biti u budućnosti.";
+                return RedirectToAction("Create", new { id_prostora = id_prostora });
+            }
+
+            if (broj_gostiju <= 0)
+            {
+                TempData["Poruka"] = "Broj gostiju mora biti veći od 0.";
+                return RedirectToAction("Create", new { id_prostora = id_prostora });
+            }
+
+            StatusRezervacije otkazanaStatus = db.StatusRezervacijes
+                .FirstOrDefault(s => s.naziv_statusa == "Otkazana");
+
+            int idOtkazana = 0;
+
+            if (otkazanaStatus != null)
+            {
+                idOtkazana = otkazanaStatus.id_statusa;
+            }
 
             Rezervacija postojecaRezervacija = db.Rezervacijas.FirstOrDefault(r =>
                 r.id_korisnika == id_korisnika &&
                 r.id_prostora == id_prostora &&
                 r.datum_dogadjaja == datum_dogadjaja &&
-                (otkazanaStatus == null || r.id_statusa != otkazanaStatus.id_statusa)
+                (idOtkazana == 0 || r.id_statusa != idOtkazana)
             );
 
             if (postojecaRezervacija != null)
@@ -51,17 +70,26 @@ namespace EventSpaceFinder.Controllers
                 return RedirectToAction("MojeRezervacije");
             }
 
-            db.Database.ExecuteSqlCommand(
-                "EXEC sp_DodajRezervaciju @id_korisnika, @id_prostora, @id_paketa, @datum_dogadjaja, @broj_gostiju, @napomena",
-                new SqlParameter("@id_korisnika", id_korisnika),
-                new SqlParameter("@id_prostora", id_prostora),
-                new SqlParameter("@id_paketa", id_paketa),
-                new SqlParameter("@datum_dogadjaja", datum_dogadjaja),
-                new SqlParameter("@broj_gostiju", broj_gostiju),
-                new SqlParameter("@napomena", napomena ?? "")
-            );
+            try
+            {
+                db.Database.ExecuteSqlCommand(
+                    "EXEC sp_DodajRezervaciju @id_korisnika, @id_prostora, @id_paketa, @datum_dogadjaja, @broj_gostiju, @napomena",
+                    new SqlParameter("@id_korisnika", id_korisnika),
+                    new SqlParameter("@id_prostora", id_prostora),
+                    new SqlParameter("@id_paketa", id_paketa),
+                    new SqlParameter("@datum_dogadjaja", datum_dogadjaja),
+                    new SqlParameter("@broj_gostiju", broj_gostiju),
+                    new SqlParameter("@napomena", napomena ?? "")
+                );
 
-            return RedirectToAction("Index", "Prostori");
+                TempData["Poruka"] = "Zahtjev za rezervaciju je uspješno poslat.";
+                return RedirectToAction("MojeRezervacije");
+            }
+            catch (Exception ex)
+            {
+                TempData["Poruka"] = "Greška pri slanju rezervacije: " + ex.Message;
+                return RedirectToAction("Create", new { id_prostora = id_prostora });
+            }
         }
 
         public ActionResult MojeRezervacije()

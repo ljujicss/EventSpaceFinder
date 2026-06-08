@@ -5,6 +5,75 @@
     ViewBag.Title = "Preporuka prostora";
 }
 
+<style>
+    .recommendation-card {
+        background-color: white;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    }
+
+    .recommendation-image {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-radius: 14px;
+        margin-bottom: 22px;
+    }
+
+    .recommendation-result {
+        background-color: #fbf7ef;
+        padding: 60px 20px 80px 20px;
+    }
+
+        .recommendation-result > h3,
+        .recommendation-result > .section-small {
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    .recommendation-card h2 {
+        color: #0b2f22;
+        font-size: 40px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .recommendation-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px 28px;
+        margin-bottom: 25px;
+    }
+
+        .recommendation-info p {
+            color: #5f6b66;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-info b {
+            color: #0b2f22;
+        }
+
+    @@media (max-width: 700px) {
+        .recommendation-info {
+            grid-template-columns: 1fr;
+        }
+
+        .recommendation-card h2 {
+            font-size: 32px;
+        }
+
+        .recommendation-image {
+            height: 200px;
+        }
+    }
+</style>
+
+
 <div class="recommendation-page">
     <div class="recommendation-header">
         <p class="section-small">PAMETNA PREPORUKA</p>
@@ -49,37 +118,66 @@
         }
     </div>
 </div>
-    @if (Model != null && Model.Any())
-    {
-        <div class="recommendation-result">
-            <p class="section-small">NAJBOLJI IZBOR</p>
-            <h3>Preporučeni prostor</h3>
+@if (Model != null && Model.Any())
+{
+    <div class="recommendation-result">
+        <p class="section-small">NAJBOLJI IZBOR</p>
+        <h3>Preporučeni prostor</h3>
 
-            @foreach (var item in Model)
-            {
-                <div class="recommendation-card">
-                    <h2>@item.naziv</h2>
+        @foreach (var item in Model)
+        {
+            <div class="recommendation-card">
 
-                    <div class="recommendation-info">
-                        <p><b>Grad:</b> @item.grad</p>
-                        <p><b>Adresa:</b> @item.adresa</p>
-                        <p><b>Kapacitet:</b> @item.kapacitet gostiju</p>
-                        <p><b>Tip prostora:</b> @item.tip_prostora</p>
+                @if (!String.IsNullOrWhiteSpace(item.putanja_slike))
+                {
+                    <img src="@item.putanja_slike" alt="@item.naziv" class="recommendation-image" />
+                }
+
+                <h2>@item.naziv</h2>
+
+                <div class="recommendation-info">
+                    <p><b>Grad:</b> @item.grad</p>
+                    <p><b>Adresa:</b> @item.adresa</p>
+                    <p><b>Kapacitet:</b> @item.kapacitet gostiju</p>
+                    <p><b>Tip prostora:</b> @item.tip_prostora</p>
+                    @if (item.osnovna_cijena > 0)
+                    {
                         <p><b>Osnovna cijena:</b> @item.osnovna_cijena €</p>
+                    }
+
+                    @if (item.broj_ocjena > 0)
+                    {
                         <p><b>Prosječna ocjena:</b> @item.prosjecna_ocjena</p>
                         <p><b>Broj ocjena:</b> @item.broj_ocjena</p>
-                        <p><b>Najbolji paket:</b> @item.najbolji_paket</p>
-                        <p><b>Cijena paketa:</b> @item.cijena_paketa €</p>
-                    </div>
+                    }
+                    else
+                    {
+                        <p><b>Ocjene:</b> Još nema ocjena</p>
+                    }
 
-                    @Html.ActionLink("Pogledaj detalje", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-dark-full" })
+                    @if (!String.IsNullOrWhiteSpace(item.najbolji_paket))
+                    {
+                        <p><b>Najbolji paket:</b> @item.najbolji_paket</p>
+
+                        if (item.cijena_paketa > 0)
+                        {
+                            <p><b>Cijena paketa:</b> @item.cijena_paketa €</p>
+                        }
+                    }
+                    else
+                    {
+                        <p><b>Paket:</b> Nije dodat paket za ovaj prostor</p>
+                    }
                 </div>
-            }
-        </div>
-    }
-    else if (IsPost)
-    {
-        <div class="recommendation-result">
-            <p>Nije pronađen prostor koji odgovara unesenim kriterijumima.</p>
-        </div>
-    }
+
+                @Html.ActionLink("Pogledaj detalje", "Details", "Prostori", new { id = item.id_prostora }, new { @class = "btn btn-dark-full" })
+            </div>
+        }
+    </div>
+}
+else if (IsPost)
+{
+    <div class="recommendation-result">
+        <p>Nije pronađen prostor koji odgovara unesenim kriterijumima.</p>
+    </div>
+}
